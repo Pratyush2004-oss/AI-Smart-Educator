@@ -32,10 +32,11 @@ export type CourseType = {
   courseTitle: string;
   category: string;
   difficulty: string;
+  description: string;
   banner_image: string;
   chaptersCount: number;
   completedChaptersCount: number;
-  createdAt: Date;
+  createdAt: string;
   chapters: ChapterType[];
   completedChapters: number[];
 };

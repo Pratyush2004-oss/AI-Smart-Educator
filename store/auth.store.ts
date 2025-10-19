@@ -84,7 +84,6 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
       Alert.alert("Success", response.data.message);
       await AsyncStorage.setItem("token", response.data.token);
     } catch (error: any) {
-      console.log(error);
       if (error.isAxiosError) {
         Alert.alert("Error", error.response.data.message);
       } else {

@@ -28,7 +28,8 @@ const ExploreScreen = () => {
   const router = useRouter();
 
   useEffect(() => {
-    getRecommendedCourseList().finally(() => setisLoading(false));
+    recommendedCourseList.length === 0 &&
+      getRecommendedCourseList().finally(() => setisLoading(false));
   }, []);
 
   const handleCoursePress = async (course: CourseType) => {

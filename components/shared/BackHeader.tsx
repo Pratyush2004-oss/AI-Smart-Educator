@@ -138,8 +138,11 @@ const BackHeader: React.FC<BackHeaderProps> = ({
           </Animated.View>
 
           {/* Title Section */}
-          <Animated.View style={titleAnimatedStyle}>
-            <Text className={`text-xl font-outfit-bold ${getTextColor()}`}>
+          <Animated.View className={" w-4/5"} style={titleAnimatedStyle}>
+            <Text
+              numberOfLines={1}
+              className={`text-base text-wrap font-outfit-bold ${getTextColor()}`}
+            >
               {title}
             </Text>
             {subtitle && (

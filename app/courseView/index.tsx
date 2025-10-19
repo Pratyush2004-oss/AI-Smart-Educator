@@ -26,10 +26,14 @@ const SelectedCourseSection = () => {
   const [isLoading, setisLoading] = useState(false);
   const router = useRouter();
   const { selectedCourse, enrollToCourse } = useCourseStore();
-  const handleChapterPress = (chapterIdx: number) => {
+  const handleChapterPress = (chapterIdx: number, chapter: ChapterType) => {
     if (enrollBool) return;
     router.push({
       pathname: "/chapterView",
+      params: {
+        chapterIdx: chapterIdx,
+        chapterParams: JSON.stringify(chapter),
+      },
     });
   };
 
@@ -44,7 +48,6 @@ const SelectedCourseSection = () => {
       });
     });
   };
-
   if (!selectedCourse) return <Redirect href={"/"} />;
 
   return (
@@ -60,29 +63,41 @@ const SelectedCourseSection = () => {
         />
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ paddingBottom: 40 }}
+          contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
         >
           {/* Banner and Title */}
           <AView entering={FadeInDown.duration(400)} className="mb-6">
             <View className="mb-4 overflow-hidden border border-white/10">
+              {/* Banner */}
               <Image
                 source={
                   imageAssets[
                     selectedCourse.banner_image as keyof typeof imageAssets
                   ]
                 }
-                className="w-full h-60"
+                className="w-full opacity-80 h-60"
                 resizeMode="cover"
               />
               <LinearGradient
                 colors={["transparent", "rgba(0,0,0,0.7)"]}
                 className="absolute bottom-0 left-0 right-0 h-20"
               />
-            </View>
-            <View className="px-6">
-              <Text className="mb-2 text-2xl text-white font-outfit-extrabold">
+              <Text className="absolute text-2xl text-white font-outfit-extrabold bottom-3 left-5">
                 {selectedCourse.courseTitle}
+              </Text>
+            </View>
+            {/* Description */}
+            <View className="px-6">
+              <Text className="text-lg text-white font-outfit-bold">
+                Description
+              </Text>
+              <Text
+                className="mb-2 text-xs text-justify font-outfit-light"
+                numberOfLines={5}
+                style={{ color: Colors.PRIMARY_LIGHT }}
+              >
+                {selectedCourse.description}
               </Text>
               <View className="flex-row items-center mb-2">
                 <Text
@@ -132,7 +147,7 @@ const SelectedCourseSection = () => {
                   <APressable
                     key={idx}
                     entering={FadeInRight.delay(idx * 80).duration(300)}
-                    onPress={() => handleChapterPress(idx)}
+                    onPress={() => handleChapterPress(idx, chapter)}
                     className={`mb-3 p-4 rounded-xl border-2 flex-row items-center ${
                       isCompleted
                         ? "bg-green-500/10 border-green-400/25"
@@ -148,7 +163,7 @@ const SelectedCourseSection = () => {
                       </Text>
                       {/* play button */}
                       <TouchableOpacity
-                        onPress={() => handleChapterPress(idx)}
+                        onPress={() => handleChapterPress(idx, chapter)}
                         className={`w-8 h-8 rounded-full items-center justify-center mr-3 ${
                           isCompleted || !enrollBool
                             ? "bg-green-500/20"
@@ -174,7 +189,7 @@ const SelectedCourseSection = () => {
           </AView>
         </ScrollView>
         <TouchableOpacity
-          onPress={handleEnroll}
+          onPress={enrollBool ? handleEnroll : () => {}}
           disabled={isLoading}
           activeOpacity={0.9}
           className="absolute overflow-hidden rounded-lg bottom-16 left-6 right-6"
