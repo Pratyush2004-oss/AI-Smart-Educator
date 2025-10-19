@@ -15,9 +15,31 @@ import * as Speech from "expo-speech";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/assets/constants";
+import { useCourseStore } from "@/store/course.store";
 
 const AView = Animated.View;
 const APressable = Animated.createAnimatedComponent(Pressable);
+
+// Function to render bold segments
+const renderBoldSegments = (text?: string) => {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.+?\*\*)/g);
+  return parts.map((part, idx) => {
+    const isBold = part.startsWith("**") && part.endsWith("**");
+    if (isBold) {
+      return (
+        <Text
+          key={idx}
+          className="font-outfit-bold"
+          style={{ color: Colors.PRIMARY }}
+        >
+          {part.slice(2, -2)}
+        </Text>
+      );
+    }
+    return <Text key={idx}>{part}</Text>;
+  });
+};
 
 // Custom Code Block Component
 const CodeBlock = ({ code }: { code: string }) => {
@@ -33,7 +55,7 @@ const CodeBlock = ({ code }: { code: string }) => {
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View className="p-4">
-          <Text className="text-sm leading-6 text-green-300 font-outfit-medium">
+          <Text className="text-sm leading-6 text-green-300 font-outfit-medium text-wrap">
             {renderBoldSegments(code)}
           </Text>
         </View>
@@ -42,25 +64,9 @@ const CodeBlock = ({ code }: { code: string }) => {
   );
 };
 
-// Render bold segments for **text**
-const renderBoldSegments = (text?: string) => {
-  if (!text) return null;
-  const parts = text.split(/(\*\*.+?\*\*)/g);
-  return parts.map((part, idx) => {
-    const isBold = part.startsWith("**") && part.endsWith("**");
-    if (isBold) {
-      return (
-        <Text key={idx} className="text-white font-outfit-bold">
-          {part.slice(2, -2)}
-        </Text>
-      );
-    }
-    return <Text key={idx}>{part}</Text>;
-  });
-};
-
 const ChapterViewScreen = () => {
   const { chapterIdx, chapterParams } = useLocalSearchParams();
+  const { completeCourseChapter } = useCourseStore();
   const chapterIndex = parseInt(
     Array.isArray(chapterIdx) ? chapterIdx[0] : chapterIdx
   );
@@ -78,6 +84,7 @@ const ChapterViewScreen = () => {
     return perc;
   };
 
+  // Text to Speech function
   const TextToSpeech = () => {
     const content = chapters.content[currentPage];
     const text = `${content.topic}. ${content.explain}${
@@ -125,17 +132,12 @@ const ChapterViewScreen = () => {
     setIsPaused(false);
   };
 
-  // Stop audio when pathname changes
+  // Stop audio when pathname or currentPage changes
   useEffect(() => {
     return () => {
       stopAudio();
     };
-  }, [pathname]);
-
-  // Stop audio when currentPage changes
-  useEffect(() => {
-    stopAudio();
-  }, [currentPage]);
+  }, [pathname, currentPage]);
 
   // Navigation handlers
   const handleNext = () => {
@@ -144,6 +146,7 @@ const ChapterViewScreen = () => {
     }
   };
 
+  // Navigation handlers
   const handlePrevious = () => {
     if (currentPage > 0) {
       setcurrentPage((prev) => prev - 1);
@@ -155,12 +158,14 @@ const ChapterViewScreen = () => {
     setIsLoading(true);
     stopAudio();
     // save chapter progress
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // go back to course view
-    router.replace("/courseView");
+    await completeCourseChapter(chapterIndex)
+      .then((res) => {
+        if (res) router.back();
+      })
+      .finally(() => setIsLoading(false));
   };
 
+  // Check if chapters is null or empty state
   if (!chapters)
     return (
       <View className="flex-1">
@@ -235,8 +240,8 @@ const ChapterViewScreen = () => {
                   Topic
                 </Text>
               </View>
-              <Text className="text-base leading-6 text-white font-outfit">
-                {currentContent.topic}
+              <Text className="text-xl leading-6 text-white font-outfit-bold">
+                {renderBoldSegments(currentContent.topic)}
               </Text>
             </View>
 
@@ -257,7 +262,7 @@ const ChapterViewScreen = () => {
                   Explanation
                 </Text>
               </View>
-              <Text className="text-base leading-7 text-gray-300 font-outfit">
+              <Text className="text-base leading-7 text-justify text-gray-300 font-outfit">
                 {renderBoldSegments(currentContent.explain)}
               </Text>
             </View>
@@ -273,7 +278,7 @@ const ChapterViewScreen = () => {
                     Example
                   </Text>
                 </View>
-                <Text className="text-base leading-7 text-gray-300 font-outfit">
+                <Text className="text-base leading-7 text-justify text-gray-300 font-outfit">
                   {renderBoldSegments(currentContent.example)}
                 </Text>
               </View>

@@ -124,7 +124,7 @@ const BackHeader: React.FC<BackHeaderProps> = ({
   };
 
   const renderContent = () => (
-    <View className="flex-row items-center justify-between px-4 py-2">
+    <View className="flex-row items-center justify-between px-4 py-2 border-b border-white/10">
       {/* Back Button */}
       <Animated.View entering={SlideInLeft.duration(400).springify()}>
         <Pressable onPress={handleBackPress} className="flex-row items-center">

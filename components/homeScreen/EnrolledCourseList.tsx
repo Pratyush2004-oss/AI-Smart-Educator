@@ -4,8 +4,9 @@ import { CourseType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -23,15 +24,20 @@ const APressable = Animated.createAnimatedComponent(Pressable);
 
 const EnrolledCourseList = () => {
   const { enrolledCourseList, getCourseInfo } = useCourseStore();
+  const [loading, setloading] = useState<string | null>(null);
 
   const router = useRouter();
 
   const handleCoursePress = async (course: CourseType) => {
-    await getCourseInfo(course);
-    router.push({
-      pathname: "/courseView",
-      params: { enroll: "false" },
-    });
+    setloading(course._id);
+    await getCourseInfo(course)
+      .then(() => {
+        router.push({
+          pathname: "/courseView",
+          params: { enroll: "false" },
+        });
+      })
+      .finally(() => setloading(null));
   };
 
   const renderCourseCard = ({
@@ -46,6 +52,7 @@ const EnrolledCourseList = () => {
         entering={FadeInRight.delay(index * 80).duration(300)}
         onPress={() => handleCoursePress(item)}
         className="mr-4 overflow-hidden rounded-2xl"
+        disabled={loading !== null}
         style={{ width: CARD_WIDTH }}
       >
         <View className="overflow-hidden border bg-white/5 rounded-2xl border-white/10">
@@ -91,6 +98,12 @@ const EnrolledCourseList = () => {
                     {item.chaptersCount} chapters
                   </Text>
                 </View>
+                {loading === item._id && (
+                  <ActivityIndicator
+                    color={Colors.PRIMARY}
+                    className="flex-1"
+                  />
+                )}
                 <Text className="mt-1 text-xs text-right text-gray-400 font-outfit">
                   {new Date(item.createdAt).toDateString()}
                 </Text>

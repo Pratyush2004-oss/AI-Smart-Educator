@@ -38,7 +38,7 @@ export type CourseType = {
   completedChaptersCount: number;
   createdAt: string;
   chapters: ChapterType[];
-  completedChapters: number[];
+  completedChapter: number[];
 };
 
 export type RecommendedCoursesType = {
@@ -59,7 +59,7 @@ export type ContentType = {
 };
 
 // flashcard types
-export type FlashcardListType = {
+export type FlashcardType = {
   _id: string;
   courseTitle: string;
   flashcardsCount: number;
@@ -72,10 +72,10 @@ export type FlashcardContentType = {
 };
 
 // qna types
-export type QnaListType = {
+export type QnaType = {
   _id: string;
   courseTitle: string;
-  qnasCount: number;
+  qaCount: number;
   qaDetail: QnaContentType[];
 };
 
@@ -85,7 +85,7 @@ export type QnaContentType = {
 };
 
 // quizes type
-export type QuizListType = {
+export type QuizType = {
   _id: string;
   courseTitle: string;
   quizesCount: number;

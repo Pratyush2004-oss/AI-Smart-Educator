@@ -1,9 +1,11 @@
-import { View, Text, Pressable, ScrollView, Dimensions } from "react-native";
-import React, { useState, useEffect } from "react";
+import { Colors } from "@/assets/constants/index";
 import { useUserStore } from "@/store/auth.store";
 import { QuizResultType } from "@/types";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors } from "@/assets/constants/index";
+import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import Animated, {
   FadeIn,
   FadeInDown,
@@ -13,10 +15,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 
-const { width } = Dimensions.get("window");
 const AView = Animated.View;
 const APressable = Animated.createAnimatedComponent(Pressable);
 

@@ -7,7 +7,7 @@ import PracticeNavigationMenu from "../homeScreen/PracticeNavigationMenu";
 import CourseProgressList from "../homeScreen/CourseProgressList";
 
 const HomeScreen = () => {
-  const { getCourseList } = useCourseStore();
+  const { getCourseList, enrolledCourseList } = useCourseStore();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     setRefreshing(true);
@@ -18,7 +18,7 @@ const HomeScreen = () => {
     }
   };
   useEffect(() => {
-    getCourseList();
+    enrolledCourseList.length === 0 && getCourseList();
   }, []);
 
   return (

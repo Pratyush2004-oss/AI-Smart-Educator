@@ -39,16 +39,20 @@ const SelectedCourseSection = () => {
 
   const handleEnroll = async () => {
     setisLoading(true);
-    await enrollToCourse(selectedCourse!._id).then(() => {
-      router.replace({
-        pathname: "/courseView",
-        params: {
-          enroll: "false",
-        },
-      });
+    await enrollToCourse(selectedCourse!._id).then((res) => {
+      if (res) {
+        router.replace({
+          pathname: "/courseView",
+          params: {
+            enroll: "false",
+          },
+        });
+      }
     });
   };
-  if (!selectedCourse) return <Redirect href={"/"} />;
+  if (!selectedCourse) return <View>
+    
+  </View>;
 
   return (
     selectedCourse && (
@@ -141,8 +145,8 @@ const SelectedCourseSection = () => {
             {selectedCourse.chapters.map(
               (chapter: ChapterType, idx: number) => {
                 const isCompleted =
-                  selectedCourse.completedChapters &&
-                  selectedCourse.completedChapters.includes(idx);
+                  selectedCourse.completedChapter &&
+                  selectedCourse.completedChapter.includes(idx);
                 return (
                   <APressable
                     key={idx}

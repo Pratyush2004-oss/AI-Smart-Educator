@@ -4,14 +4,15 @@ import { CourseType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
   Pressable,
   Text,
-  View
+  View,
 } from "react-native";
 import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
 
@@ -23,15 +24,20 @@ const APressable = Animated.createAnimatedComponent(Pressable);
 
 const CourseProgressList = () => {
   const { enrolledCourseList, getCourseInfo } = useCourseStore();
+  const [loading, setloading] = useState<string | null>(null);
 
   const router = useRouter();
 
   const handleCoursePress = async (course: CourseType) => {
-    await getCourseInfo(course);
-    router.push({
-      pathname: "/courseView",
-      params: { enroll: "false" },
-    });
+    setloading(course._id);
+    await getCourseInfo(course)
+      .then(() => {
+        router.push({
+          pathname: "/courseView",
+          params: { enroll: "false" },
+        });
+      })
+      .finally(() => setloading(null));
   };
 
   const renderCourseCard = ({
@@ -47,8 +53,8 @@ const CourseProgressList = () => {
         : 0;
 
     const getProgressColor = () => {
-      if (progress > 75) return Colors.GREEN; // green
-      if (progress > 50) return Colors.PRIMARY; // yellow
+      if (progress >= 75) return Colors.GREEN; // green
+      if (progress >= 50) return Colors.PRIMARY; // yellow
       return Colors.RED; // red
     };
 
@@ -57,6 +63,7 @@ const CourseProgressList = () => {
         entering={FadeInRight.delay(index * 80).duration(300)}
         onPress={() => handleCoursePress(item)}
         className="mr-4 overflow-hidden rounded-2xl"
+        disabled={loading !== null}
         style={{ width: CARD_WIDTH }}
       >
         <View className="overflow-hidden border bg-white/5 rounded-2xl border-white/10">
@@ -113,6 +120,12 @@ const CourseProgressList = () => {
                 >
                   {item.completedChaptersCount} completed
                 </Text>
+                {loading === item._id && (
+                  <ActivityIndicator
+                    color={Colors.PRIMARY}
+                    className="flex-1"
+                  />
+                )}
               </View>
             </View>
 

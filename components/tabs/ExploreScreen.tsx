@@ -5,6 +5,7 @@ import {
   Pressable,
   Image,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useCourseStore } from "@/store/course.store";
@@ -26,6 +27,7 @@ const ExploreScreen = () => {
     useCourseStore();
   const [isLoading, setisLoading] = useState(true);
   const router = useRouter();
+  const [selected, setselected] = useState<string | null>(null);
 
   useEffect(() => {
     recommendedCourseList.length === 0 &&
@@ -33,14 +35,17 @@ const ExploreScreen = () => {
   }, []);
 
   const handleCoursePress = async (course: CourseType) => {
-    await getCourseInfo(course).then(() => {
-      router.push({
-        pathname: "/courseView",
-        params: {
-          enroll: "true",
-        },
-      });
-    });
+    setselected(course._id);
+    await getCourseInfo(course)
+      .then(() => {
+        router.push({
+          pathname: "/courseView",
+          params: {
+            enroll: "true",
+          },
+        });
+      })
+      .finally(() => setselected(null));
   };
 
   const handleRefresh = () => {
@@ -64,6 +69,7 @@ const ExploreScreen = () => {
       <APressable
         entering={FadeInRight.delay(index * 100).duration(300)}
         onPress={() => handleCoursePress(item)}
+        disabled={selected !== null}
         className="mr-4 overflow-hidden rounded-2xl"
         style={{ width: CARD_WIDTH }}
       >
@@ -103,20 +109,15 @@ const ExploreScreen = () => {
             </Text>
 
             {/* Stats */}
-            <View className="flex-row items-center mt-3 mb-2">
+            <View className="flex-row items-center justify-between mt-3 mb-2">
               <View className="flex-row items-center mr-4">
                 <Ionicons name="book-outline" size={16} color="#9ca3af" />
                 <Text className="ml-1 text-xs text-gray-400 font-outfit">
                   {item.chaptersCount} chapters
                 </Text>
               </View>
-              {item.completedChaptersCount > 0 && (
-                <View className="flex-row items-center">
-                  <Ionicons name="checkmark-circle" size={16} color="#22c55e" />
-                  <Text className="ml-1 text-xs text-green-400 font-outfit">
-                    {item.completedChaptersCount} completed
-                  </Text>
-                </View>
+              {selected === item._id && (
+                <ActivityIndicator size="small" color={Colors.PRIMARY} />
               )}
             </View>
 

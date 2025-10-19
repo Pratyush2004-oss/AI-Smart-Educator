@@ -22,7 +22,10 @@ const PracticeNavigationMenu = () => {
   const router = useRouter();
 
   const handlePress = (path: string) => {
-    router.push(path as any);
+    router.push({
+      pathname: "/practice/[type]",
+      params: { type: path },
+    });
   };
 
   const renderItem = ({
@@ -35,7 +38,7 @@ const PracticeNavigationMenu = () => {
     return (
       <APressable
         entering={FadeInRight.delay(index * 100).duration(300)}
-        // onPress={() => handlePress(item.path)}
+        onPress={() => handlePress(item.name)}
         className="mr-2 overflow-hidden rounded-2xl"
         style={{ width: CARD_WIDTH }}
       >
