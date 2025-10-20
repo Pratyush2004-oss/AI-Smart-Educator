@@ -3,7 +3,7 @@ export type UserType = {
   name: string;
   email: string;
   domains: string[];
-  quizMarks: number[];
+  quizMarks: number;
   quiz: InitialQuizType[];
 };
 

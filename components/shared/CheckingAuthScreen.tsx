@@ -113,7 +113,7 @@ const CheckingAuthScreen = () => {
         {/* Title with gradient fill */}
         <MaskedView
           maskElement={
-            <Text className="mb-2 text-4xl tracking-wide text-center font-outfit-extrabold">
+            <Text className="mb-2 text-3xl tracking-wide text-center font-outfit-bold">
               Smart-Educator
             </Text>
           }
@@ -123,7 +123,7 @@ const CheckingAuthScreen = () => {
             start={[0, 0]}
             end={[1, 0]}
           >
-            <Text className="mb-2 text-4xl tracking-wide text-center opacity-0 font-outfit-extrabold">
+            <Text className="mb-2 text-3xl tracking-wide text-center opacity-0 font-outfit-bold">
               Smart-Educator
             </Text>
           </LinearGradient>

@@ -1,21 +1,21 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  Image,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { useCourseStore } from "@/store/course.store";
-import LoadingSection from "../shared/LoadingSection";
-import { CourseType, RecommendedCoursesType } from "@/types";
-import { LinearGradient } from "expo-linear-gradient";
 import { Colors, imageAssets } from "@/assets/constants/index";
-import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
+import { useCourseStore } from "@/store/course.store";
+import { CourseType, RecommendedCoursesType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
+import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
+import LoadingSection from "../shared/LoadingSection";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.7;
@@ -30,7 +30,7 @@ const ExploreScreen = () => {
   const [selected, setselected] = useState<string | null>(null);
 
   useEffect(() => {
-    recommendedCourseList.length === 0 &&
+      isLoading &&
       getRecommendedCourseList().finally(() => setisLoading(false));
   }, []);
 
@@ -207,7 +207,7 @@ const ExploreScreen = () => {
       className="flex-1"
     >
       {isLoading ? (
-        <LoadingSection />
+        <LoadingSection isHome={false} />
       ) : (
         <FlatList
           data={recommendedCourseList}

@@ -15,7 +15,7 @@ const QuizScreen = () => {
     >
       <BackHeader
         title={selectedQuiz?.courseTitle || ""}
-        subtitle="Quiz"
+        subtitle={`Quiz • ${selectedQuiz?.quizesCount} questions`}
         backgroundColor="gradient"
       />
       <CourseQuizScreen />

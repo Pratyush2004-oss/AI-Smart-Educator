@@ -55,6 +55,7 @@ export const Colors = {
   RED: "#B8405E",
   LIGHT_RED: "#ffc8c4",
   LIGHT_GRAY: "#f2f2f2",
+  ORANGE: "#FFA500",
 };
 
 export const PraticeOption = [
@@ -113,28 +114,45 @@ export const imageAssets = {
 
 export const ProfileMenu = [
   {
-    name: "Add Course",
-    icon: "add-outline", //Ionic Icons
-    path: "/addCourse",
-  },
-  {
     name: "My Course",
-    icon: "book", //Ionic Icons
+    icon: "book-outline", //Ionic Icons
     path: "/(tabs)",
+    type: "",
+    desc: "Get my progress on all my courses",
   },
   {
     name: "Explore",
     icon: "search-outline",
     path: "/(tabs)/explore",
+    type: "",
+    desc: "Explore new courses",
   },
   {
     name: "Course Progress",
     icon: "analytics-outline", //Ionic Icons
     path: "/(tabs)/progress",
+    type: "",
+    desc: "Get my progress on all my courses",
   },
   {
-    name: "Logout",
-    icon: "log-out", //Ionic Icons
-    path: "/(auth)",
+    name: "Quiz",
+    icon: "analytics-outline", //Ionic Icons
+    path: "/practice/[type]",
+    type: "Quiz",
+    desc: "Get quizes on all my courses",
+  },
+  {
+    name: "Flashcards",
+    icon: "bar-chart-outline", //Ionic Icons
+    path: "/practice/[type]",
+    type: "Flashcards",
+    desc: "Get flashcards on all my courses",
+  },
+  {
+    name: "Question & Ans",
+    icon: "chatbubbles-outline", //Ionic Icons
+    path: "/practice/[type]",
+    type: "Question & Ans",
+    desc: "Get quizes on all my courses",
   },
 ];

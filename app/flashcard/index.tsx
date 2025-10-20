@@ -126,7 +126,7 @@ const FlashcardScreen = () => {
     >
       <BackHeader
         title={selectedFlashcard?.courseTitle || ""}
-        subtitle="Flashcard"
+        subtitle={`Flashcard • ${selectedFlashcard?.flashcardsCount} cards`}
         backgroundColor="gradient"
       />
       {/* Progress */}
