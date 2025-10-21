@@ -37,22 +37,34 @@ const SelectedCourseSection = () => {
     });
   };
 
+  // enroll handler
   const handleEnroll = async () => {
     setisLoading(true);
-    await enrollToCourse(selectedCourse!._id).then((res) => {
-      if (res) {
-        router.replace({
-          pathname: "/courseView",
-          params: {
-            enroll: "false",
-          },
-        });
-      }
-    });
+    await enrollToCourse(selectedCourse!._id)
+      .then((res) => {
+        if (res) {
+          router.replace({
+            pathname: "/courseView",
+            params: {
+              enroll: "false",
+            },
+          });
+        }
+      })
+      .finally(() => setisLoading(false));
   };
-  if (!selectedCourse) return <View>
-    
-  </View>;
+  if (!selectedCourse)
+    return (
+      <LinearGradient
+        colors={["#1a1a2e", "#16213e", "#0f3460"]}
+        className="items-center justify-center flex-1 px-5"
+      >
+        <Ionicons name="search-outline" size={64} color="#6b7280" />
+        <Text className="mt-4 text-lg text-gray-300 font-outfit">
+          No Course Selected
+        </Text>
+      </LinearGradient>
+    );
 
   return (
     selectedCourse && (

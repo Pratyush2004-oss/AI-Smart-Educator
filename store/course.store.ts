@@ -102,7 +102,6 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
   },
   // get course info
   getCourseInfo: async (course) => {
-    // if selected course is same as course then return
     const token = useUserStore.getState().token;
     try {
       const response = await axios.get(
@@ -131,6 +130,13 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
+      set({
+        selectedCourse: {
+          ...get().selectedCourse!,
+          _id: response.data.courseId,
+          completedChapter: response.data.completedChapter,
+        },
+      });
       Alert.alert("Success", response.data.message, [
         {
           text: "OK",
@@ -142,7 +148,6 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       ]);
       return true;
     } catch (error: any) {
-      console.log(error);
       if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
       else Alert.alert("Error", error.message);
     }

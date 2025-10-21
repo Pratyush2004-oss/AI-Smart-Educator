@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
+import CreateCourseModal from "../shared/CreateCourseModal";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.75;
@@ -116,13 +117,30 @@ const EnrolledCourseList = () => {
   };
 
   const ListHeader = () => (
-    <AView entering={FadeInDown.duration(300)} className="px-5 pt-5">
-      <Text className="text-2xl text-white font-outfit-extrabold">
-        Your Courses
-      </Text>
-      <Text className="mt-1 text-sm text-gray-400 font-outfit">
-        View all the courses you have enrolled
-      </Text>
+    <AView
+      entering={FadeInDown.duration(300)}
+      className="flex-row items-center justify-between flex-1 w-full px-5 pt-5"
+    >
+      <View>
+        <Text className="text-2xl text-white font-outfit-extrabold">
+          Your Courses
+        </Text>
+        <Text className="mt-1 text-sm text-gray-400 font-outfit">
+          View all the courses you have enrolled
+        </Text>
+      </View>
+      <CreateCourseModal>
+        <LinearGradient
+          start={{ x: 1, y: 0 }}
+          end={{ x: 0, y: 0 }}
+          colors={["#1a1a2e", "#16213e", "#0f3460"]}
+          style={{ borderRadius: 10 }}
+          className="flex-row items-center gap-1 px-3 py-3 border rounded-xl border-white/10"
+        >
+          <Ionicons name="add-circle-outline" size={16} color="#fff" />
+          <Text className="text-sm text-white font-outfit-bold">Add</Text>
+        </LinearGradient>
+      </CreateCourseModal>
     </AView>
   );
 
