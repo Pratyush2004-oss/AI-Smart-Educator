@@ -60,8 +60,8 @@ interface CourseStoreInterface {
 }
 
 export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
-  enrolledCourseList: [],
   isLoading: false,
+  enrolledCourseList: [],
   recommendedCourseList: [],
   selectedCourse: null,
   Quizlist: [],
@@ -362,6 +362,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
   // reset Data
   resetCourseData: () => {
     set({
+      isLoading: false,
       enrolledCourseList: [],
       recommendedCourseList: [],
       selectedCourse: null,

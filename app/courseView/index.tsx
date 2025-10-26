@@ -37,6 +37,41 @@ const SelectedCourseSection = () => {
     });
   };
 
+  // get the index of the chapter which is not completed yet
+  const getCurrentChapterIndex = () => {
+    return (
+      selectedCourse!.completedChapter.sort((a, b) => a - b)[
+        selectedCourse!.completedChapter.length - 1
+      ] + 1
+    );
+  };
+
+  // handle press start learning
+  const handleStartLearning = () => {
+    if (enrollBool) return;
+    router.push({
+      pathname: "/chapterView",
+      params: {
+        chapterIdx: 0,
+        chapterParams: JSON.stringify(selectedCourse!.chapters[0]),
+      },
+    });
+  };
+
+  // handle press continue learning
+  const handleContinueLearning = () => {
+    if (enrollBool) return;
+    router.push({
+      pathname: "/chapterView",
+      params: {
+        chapterIdx: getCurrentChapterIndex(),
+        chapterParams: JSON.stringify(
+          selectedCourse!.chapters[getCurrentChapterIndex()]
+        ),
+      },
+    });
+  };
+
   // enroll handler
   const handleEnroll = async () => {
     setisLoading(true);
@@ -205,7 +240,13 @@ const SelectedCourseSection = () => {
           </AView>
         </ScrollView>
         <TouchableOpacity
-          onPress={enrollBool ? handleEnroll : () => {}}
+          onPress={
+            enrollBool
+              ? handleEnroll
+              : selectedCourse!.completedChapter.length > 0
+                ? handleContinueLearning
+                : handleStartLearning
+          }
           disabled={isLoading}
           activeOpacity={0.9}
           className="absolute overflow-hidden rounded-lg bottom-16 left-6 right-6"
@@ -226,7 +267,11 @@ const SelectedCourseSection = () => {
               <Text
                 className={`text-base text-[#8a5225] font-outfit-extrabold`}
               >
-                {enrollBool ? "Enroll to Course" : "Start Learning"}
+                {enrollBool
+                  ? "Enroll to Course"
+                  : selectedCourse!.completedChapter.length > 0
+                    ? "Continue Learning"
+                    : "Start Learning"}
               </Text>
             )}
           </LinearGradient>
