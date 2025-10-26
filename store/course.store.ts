@@ -14,6 +14,7 @@ import { Alert } from "react-native";
 
 interface CourseStoreInterface {
   enrolledCourseList: CourseType[];
+  isLoading: boolean;
   recommendedCourseList: RecommendedCoursesType[];
   selectedCourse: CourseType | null;
   Quizlist: QuizType[];
@@ -33,7 +34,7 @@ interface CourseStoreInterface {
   // enroll to course
   enrollToCourse: (courseId: string) => Promise<void | boolean>;
   // create course
-  createCourse: (title: string) => Promise<void>;
+  createCourse: (userInput: string) => Promise<void | boolean>;
 
   // compolete course chapter
   completeCourseChapter: (chapterId: number) => Promise<void | boolean>;
@@ -60,6 +61,7 @@ interface CourseStoreInterface {
 
 export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
   enrolledCourseList: [],
+  isLoading: false,
   recommendedCourseList: [],
   selectedCourse: null,
   Quizlist: [],
@@ -69,7 +71,41 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
   selectedQa: null,
   selectedQuiz: null,
   // create Course
-  createCourse: async (title: string) => {},
+  createCourse: async (userInput: string) => {
+    set({ isLoading: true });
+    if (!userInput) {
+      Alert.alert("Error", "Please fill all the fields.");
+      return;
+    }
+
+    const token = useUserStore.getState().token;
+    try {
+      const response = await axios.post(
+        CourseApis.createCourse,
+        { userInput },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 400) throw new Error(response.data.message);
+      Alert.alert("Success", response.data.message, [
+        {
+          text: "OK",
+          onPress: () => {
+            get().getCourseList();
+          },
+        },
+      ]);
+      return true;
+    } catch (error: any) {
+      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
+      else Alert.alert("Error", error.message);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
   // get all enrolledCourseList
   getCourseList: async () => {
     const token = useUserStore.getState().token;

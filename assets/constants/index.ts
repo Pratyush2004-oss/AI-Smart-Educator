@@ -5,6 +5,8 @@ export const domains = [
   "Health & Fitness",
   "Science & Engineering",
   "Tech & Coding",
+  "Mathematics",
+  "Physics, Chemistry & Biology",
 ];
 
 // apis

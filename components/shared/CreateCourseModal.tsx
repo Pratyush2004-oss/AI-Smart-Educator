@@ -1,24 +1,25 @@
-import {
-  View,
-  Text,
-  Modal,
-  Pressable,
-  TextInput,
-  ActivityIndicator,
-} from "react-native";
-import React, { useState } from "react";
+import { Colors } from "@/assets/constants";
+import { useCourseStore } from "@/store/course.store";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors } from "@/assets/constants";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  Modal,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Animated, {
   FadeIn,
   FadeOut,
   SlideInDown,
   SlideOutDown,
   useAnimatedStyle,
-  withSpring,
   useSharedValue,
-  withTiming,
+  withSpring,
 } from "react-native-reanimated";
 
 const AView = Animated.View;
@@ -31,8 +32,9 @@ interface CreateCourseModalProps {
 const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [topic, setTopic] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, createCourse } = useCourseStore();
   const scale = useSharedValue(1);
+  const router = useRouter();
 
   const handleOpen = () => {
     setIsVisible(true);
@@ -47,17 +49,11 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
   };
 
   const handleSubmit = async () => {
-    if (!topic.trim()) return;
-
-    setIsLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      handleClose();
-    } catch (error) {
-      console.error("Error submitting:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    await createCourse(topic).then((res) => {
+      if (res) {
+        router.push({ pathname: "/courseView", params: { enroll: "false" } });
+      }
+    });
   };
 
   const buttonStyle = useAnimatedStyle(() => ({
