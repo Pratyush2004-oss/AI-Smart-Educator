@@ -13,6 +13,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import MaskedView from "@react-native-masked-view/masked-view";
 
 interface BackHeaderProps {
   title: string;
@@ -103,9 +104,9 @@ const BackHeader: React.FC<BackHeaderProps> = ({
       case "gradient":
         return (
           <LinearGradient
-            colors={["#1a1a2e", "#16213e", "#0f3460"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+            colors={["#f9f8f8", "#194aa4"]}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 0 }}
           >
             {renderContent()}
           </LinearGradient>
@@ -121,6 +122,40 @@ const BackHeader: React.FC<BackHeaderProps> = ({
 
   const getIconColor = () => {
     return backgroundColor === "default" ? "#374151" : "white";
+  };
+
+  const GradientText: React.FC<
+    React.PropsWithChildren<{ className?: string; numberOfLines?: number }>
+  > = ({ children, className, numberOfLines }) => {
+    const textClass = className ?? "text-base font-outfit-bold";
+    return (
+      <MaskedView
+        maskElement={
+          <Text
+            numberOfLines={numberOfLines}
+            className={textClass}
+            style={{ backgroundColor: "transparent" }}
+          >
+            {children}
+          </Text>
+        }
+      >
+        <LinearGradient
+          colors={[Colors.PRIMARY, "#ffffff"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          {/* invisible text used to size the gradient */}
+          <Text
+            numberOfLines={numberOfLines}
+            className={textClass}
+            style={{ opacity: 0 }}
+          >
+            {children}
+          </Text>
+        </LinearGradient>
+      </MaskedView>
+    );
   };
 
   const renderContent = () => (
@@ -139,12 +174,13 @@ const BackHeader: React.FC<BackHeaderProps> = ({
 
           {/* Title Section */}
           <Animated.View className={" w-4/5"} style={titleAnimatedStyle}>
-            <Text
+            <GradientText
               numberOfLines={1}
-              className={`text-base text-wrap font-outfit-bold ${getTextColor()}`}
+              className="text-base text-wrap font-outfit-bold"
             >
               {title}
-            </Text>
+            </GradientText>
+
             {subtitle && (
               <Text
                 className={`text-sm font-outfit ${backgroundColor === "default" ? "text-gray-600" : "text-white/80"}`}

@@ -135,8 +135,8 @@ const ProgressScreen = () => {
               <Text className="text-2xl text-white font-outfit-extrabold">
                 Your Progress
               </Text>
-              <Text className="mt-1 text-sm text-gray-400 font-outfit">
-                Continue learning where you left off
+              <Text className="mt-1 text-base text-gray-500 font-outfit">
+                Continue learning where you left off ...
               </Text>
             </View>
 
@@ -220,9 +220,7 @@ const ProgressScreen = () => {
           : 0;
 
       const getProgressColor = () => {
-        if (progress >= 75) return Colors.GREEN;
-        if (progress >= 50) return Colors.PRIMARY;
-        return Colors.RED;
+        return Colors.GREEN;
       };
 
       const Content = (
@@ -251,7 +249,7 @@ const ProgressScreen = () => {
 
           <View className="p-4">
             <Text
-              className="text-base text-white font-outfit-bold"
+              className="text-lg text-white font-outfit-bold"
               numberOfLines={2}
             >
               {item.courseTitle}
@@ -260,7 +258,7 @@ const ProgressScreen = () => {
             <View className="flex-row items-center mt-3 mb-2">
               <View className="flex-row items-center mr-4">
                 <Ionicons name="book-outline" size={16} color="#9ca3af" />
-                <Text className="ml-1 text-xs text-gray-400 font-outfit">
+                <Text className="ml-1 text-base text-gray-400 font-outfit">
                   {item.chaptersCount} chapters
                 </Text>
               </View>
@@ -271,7 +269,7 @@ const ProgressScreen = () => {
                   color={getProgressColor()}
                 />
                 <Text
-                  className="ml-1 text-xs font-outfit"
+                  className="ml-1 text-base font-outfit"
                   style={{ color: getProgressColor() }}
                 >
                   {item.completedChaptersCount} completed
@@ -295,7 +293,7 @@ const ProgressScreen = () => {
                   }}
                 />
               </View>
-              <Text className="mt-1 text-xs text-right text-gray-400 font-outfit">
+              <Text className="mt-1 text-sm text-right text-gray-400 font-outfit">
                 {Math.round(progress)}% complete
               </Text>
             </View>

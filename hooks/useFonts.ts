@@ -9,6 +9,8 @@ export const useFonts = () => {
     // Add more weights as needed
     "Outfit-Light": require("../assets/fonts/Outfit-Light.ttf"),
     "Outfit-ExtraBold": require("../assets/fonts/Outfit-ExtraBold.ttf"),
+    "Times New Roman": require("../assets/fonts/times.ttf"),
+    "Times New Roman Bold": require("../assets/fonts/Times-New-Roman-Bold.ttf"),
   });
 
   return fontsLoaded;
@@ -21,4 +23,6 @@ export const FontFamily = {
   bold: "Outfit-Bold",
   light: "Outfit-Light",
   extrabold: "Outfit-ExtraBold",
+  times: "Times New Roman",
+  timesbold: "Times New Roman Bold",
 } as const;

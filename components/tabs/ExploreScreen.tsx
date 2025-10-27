@@ -30,8 +30,7 @@ const ExploreScreen = () => {
   const [selected, setselected] = useState<string | null>(null);
 
   useEffect(() => {
-      isLoading &&
-      getRecommendedCourseList().finally(() => setisLoading(false));
+    isLoading && getRecommendedCourseList().finally(() => setisLoading(false));
   }, []);
 
   const handleCoursePress = async (course: CourseType) => {
@@ -101,10 +100,7 @@ const ExploreScreen = () => {
 
           {/* Content */}
           <View className="p-4">
-            <Text
-              className="text-base text-white font-outfit-bold"
-              numberOfLines={1}
-            >
+            <Text className="text-lg font-outfit-bold" numberOfLines={1}>
               {item.courseTitle}
             </Text>
 
@@ -112,7 +108,7 @@ const ExploreScreen = () => {
             <View className="flex-row items-center justify-between mt-3 mb-2">
               <View className="flex-row items-center mr-4">
                 <Ionicons name="book-outline" size={16} color="#9ca3af" />
-                <Text className="ml-1 text-xs text-gray-400 font-outfit">
+                <Text className="ml-1 text-base text-gray-500 font-outfit">
                   {item.chaptersCount} chapters
                 </Text>
               </View>
@@ -163,11 +159,9 @@ const ExploreScreen = () => {
               className="w-1 h-6 mr-3 rounded-full"
               style={{ backgroundColor: Colors.PRIMARY }}
             />
-            <Text className="text-xl text-white font-outfit-bold">
-              {item.domain}
-            </Text>
+            <Text className="text-xl font-outfit-bold">{item.domain}</Text>
           </View>
-          <Text className="text-sm text-gray-400 font-outfit">
+          <Text className="text-base text-gray-500 font-outfit">
             {item.courses.length} courses
           </Text>
         </View>
@@ -190,7 +184,7 @@ const ExploreScreen = () => {
   if (!recommendedCourseList || recommendedCourseList.length === 0) {
     return (
       <LinearGradient
-        colors={["#1a1a2e", "#16213e", "#0f3460"]}
+        colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
         className="items-center justify-center flex-1"
       >
         <Ionicons name="search-outline" size={64} color="#6b7280" />
@@ -203,8 +197,8 @@ const ExploreScreen = () => {
 
   return (
     <LinearGradient
-      colors={["#1a1a2e", "#16213e", "#0f3460"]}
-      className="flex-1"
+      colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
+      className="flex-1 bg-[#f9f8f8]"
     >
       {isLoading ? (
         <LoadingSection isHome={false} />
@@ -217,10 +211,10 @@ const ExploreScreen = () => {
           contentContainerStyle={{ paddingTop: 20, paddingBottom: 40 }}
           ListHeaderComponent={
             <AView entering={FadeInDown.duration(300)} className="px-5 mb-6">
-              <Text className="text-2xl text-white font-outfit-extrabold">
+              <Text className="text-2xl font-outfit-extrabold">
                 Explore Courses
               </Text>
-              <Text className="mt-1 text-sm text-gray-400 font-outfit">
+              <Text className="mt-1 text-base text-gray-500 font-outfit">
                 Discover courses tailored for you
               </Text>
             </AView>

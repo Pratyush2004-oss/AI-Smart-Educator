@@ -33,14 +33,14 @@ const EmptyState = () => {
 
       {/* Title */}
       <AView entering={FadeInDown.delay(200).duration(400)} className="mb-2">
-        <Text className="text-2xl text-center text-white font-outfit-extrabold">
+        <Text className="text-2xl text-center font-outfit-extrabold">
           No Enrolled Courses Yet
         </Text>
       </AView>
 
       {/* Subtitle */}
       <AView entering={FadeInDown.delay(300).duration(400)} className="mb-8">
-        <Text className="text-base leading-6 text-center text-gray-400 font-outfit">
+        <Text className="text-base leading-6 text-center text-gray-500 font-outfit">
           Start your learning journey by exploring our wide range of courses
         </Text>
       </AView>
@@ -57,7 +57,7 @@ const EmptyState = () => {
         ].map((item, index) => (
           <View
             key={index}
-            className="flex-row items-center p-3 mb-2 border rounded-xl bg-white/5 border-white/10"
+            className="flex-row items-center p-3 mb-2 border rounded-xl bg-black/5 border-black/10"
           >
             <View
               className="items-center justify-center w-10 h-10 mr-3 rounded-full"
@@ -69,7 +69,7 @@ const EmptyState = () => {
                 color={Colors.PRIMARY}
               />
             </View>
-            <Text className="text-sm text-white font-outfit">{item.text}</Text>
+            <Text className="text-sm font-outfit">{item.text}</Text>
           </View>
         ))}
       </AView>
@@ -82,7 +82,7 @@ const EmptyState = () => {
         <CreateCourseModal>
           <AView className="overflow-hidden rounded-xl">
             <LinearGradient
-              colors={["#0f3460", "#16213e", "#1a1a2e", "#0f3460"]}
+              colors={[Colors.PRIMARY, Colors.PRIMARY_LIGHT]}
               start={[0, 0]}
               end={[1, 0]}
               className="flex-row items-center justify-center py-4"

@@ -31,11 +31,11 @@ const ProfileScreen = () => {
       ? Colors.GREEN
       : quizMarks >= 50
         ? Colors.PRIMARY
-        : Colors.RED;
+        : "#ef4444";
 
   return (
     <LinearGradient
-      colors={["#1a1a2e", "#16213e", "#0f3460"]}
+      colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
       start={[0, 0]}
       end={[1, 1]}
       className="flex-1"
@@ -69,10 +69,10 @@ const ProfileScreen = () => {
           </View>
 
           {/* User Info */}
-          <Text className="text-2xl text-white font-outfit-extrabold">
+          <Text className="text-2xl font-outfit-extrabold">
             {user?.name || "Guest User"}
           </Text>
-          <Text className="mt-1 text-sm text-gray-400 font-outfit">
+          <Text className="mt-1 text-sm text-gray-500 font-outfit">
             {user?.email || "guest@example.com"}
           </Text>
 
@@ -85,7 +85,7 @@ const ProfileScreen = () => {
               >
                 {enrolledCourseList.length}
               </Text>
-              <Text className="mt-1 text-xs text-gray-400 font-outfit">
+              <Text className="mt-1 text-sm text-gray-500 font-outfit">
                 Courses
               </Text>
             </View>
@@ -96,18 +96,18 @@ const ProfileScreen = () => {
               >
                 {quizMarks}
               </Text>
-              <Text className="mt-1 text-xs text-gray-400 font-outfit">
+              <Text className="mt-1 text-sm text-gray-500 font-outfit">
                 Marks Scored
               </Text>
             </View>
             <View className="items-center flex-1 px-4 py-3 border rounded-xl bg-white/5 border-white/10">
               <Text
                 className="text-2xl font-outfit-extrabold"
-                style={{ color: Colors.ORANGE }}
+                style={{ color: Colors.GREEN }}
               >
                 45h
               </Text>
-              <Text className="mt-1 text-xs text-gray-400 font-outfit">
+              <Text className="mt-1 text-sm text-gray-500 font-outfit">
                 Learning
               </Text>
             </View>
@@ -116,7 +116,7 @@ const ProfileScreen = () => {
 
         {/* Menu Items */}
         <View className="px-5 mt-4">
-          <Text className="mb-3 text-sm text-gray-400 uppercase font-outfit-bold">
+          <Text className="mb-3 text-sm text-gray-700 uppercase font-outfit-bold">
             Account Settings
           </Text>
 
@@ -124,7 +124,7 @@ const ProfileScreen = () => {
           <CreateCourseModal>
             <AView
               entering={FadeInDown.delay(60).duration(300)}
-              className="mb-3 overflow-hidden border rounded-xl border-white/10"
+              className="mb-3 overflow-hidden border rounded-xl border-black/10"
             >
               <LinearGradient
                 colors={[
@@ -154,13 +154,11 @@ const ProfileScreen = () => {
                   <View className="flex-1">
                     <Text
                       className="text-base font-outfit-bold"
-                      style={{
-                        color: "#fff",
-                      }}
+                      style={{ color: Colors.PRIMARY }}
                     >
                       Create Course
                     </Text>
-                    <Text className="mt-0.5 text-xs text-gray-400 font-outfit">
+                    <Text className="mt-0.5 text-base text-gray-500 font-outfit">
                       {"Create a new course"}
                     </Text>
                   </View>
@@ -182,14 +180,13 @@ const ProfileScreen = () => {
               key={menu.name}
               entering={FadeInDown.delay((index + 1) * 60).duration(300)}
               onPress={() => handleMenuPress(menu.path, menu.type || "")}
-              className="mb-3 overflow-hidden border rounded-xl border-white/10"
+              className="mb-3 overflow-hidden border rounded-xl border-black/10"
             >
               <LinearGradient
-                colors={
-                  menu.name === "Logout"
-                    ? ["rgba(239, 68, 68, 0.1)", "rgba(220, 38, 38, 0.05)"]
-                    : ["rgba(255, 255, 255, 0.05)", "rgba(255, 255, 255, 0.02)"]
-                }
+                colors={[
+                  "rgba(255, 255, 255, 0.05)",
+                  "rgba(255, 255, 255, 0.02)",
+                ]}
                 start={[0, 0]}
                 end={[1, 0]}
                 className="flex-row items-center justify-between p-4"
@@ -208,9 +205,7 @@ const ProfileScreen = () => {
                     <Ionicons
                       name={menu.icon as any}
                       size={20}
-                      color={
-                        menu.name === "Logout" ? "#ef4444" : Colors.PRIMARY
-                      }
+                      color={Colors.PRIMARY}
                     />
                   </View>
 
@@ -219,13 +214,13 @@ const ProfileScreen = () => {
                     <Text
                       className="text-base font-outfit-bold"
                       style={{
-                        color: menu.name === "Logout" ? "#ef4444" : "#fff",
+                        color: Colors.PRIMARY,
                       }}
                     >
                       {menu.name}
                     </Text>
                     {menu.name !== "Logout" && (
-                      <Text className="mt-0.5 text-xs text-gray-400 font-outfit">
+                      <Text className="mt-0.5 text-base text-gray-500 font-outfit">
                         {menu.desc}
                       </Text>
                     )}

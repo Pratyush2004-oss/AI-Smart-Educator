@@ -47,8 +47,8 @@ export const CourseApis = {
 export const Colors = {
   WHITE: "#fff",
   DARK_GREY: "#595959",
-  PRIMARY: "#a37a51",
-  PRIMARY_LIGHT: "#e4d8c9",
+  PRIMARY: "#194aa4",
+  PRIMARY_LIGHT: "#1d6dee",
   GRAY: "#858585",
   BG_GRAY: "#f2f2f2",
   BLACK: "#000",

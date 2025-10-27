@@ -52,14 +52,14 @@ const PracticeNavigationMenu = () => {
           <View className="relative h-32">
             <Image
               source={item.image}
-              className="w-full h-full opacity-70"
+              className="w-full h-full"
               resizeMode="cover"
             />
             <LinearGradient
-              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              colors={["transparent", "rgba(0,0,0,0.4)"]}
               className="absolute bottom-0 left-0 right-0 h-16"
             />
-            <Text className="absolute text-sm text-white bottom-2 left-3 font-outfit-medium">
+            <Text className="absolute text-base text-white bottom-2 left-3 font-outfit-medium">
               {item.name}
             </Text>
           </View>
@@ -70,10 +70,8 @@ const PracticeNavigationMenu = () => {
 
   return (
     <AView entering={FadeInDown.duration(300)} className="p-3 px-5">
-      <Text className="text-2xl text-white font-outfit-extrabold">
-        Practice
-      </Text>
-      <Text className="mt-1 text-sm text-gray-400 font-outfit">
+      <Text className="text-2xl font-outfit-extrabold">Practice</Text>
+      <Text className="mt-1 text-base text-gray-500 font-outfit">
         Explore Quizes, Flashcard and Question-Answers
       </Text>
       <FlatList

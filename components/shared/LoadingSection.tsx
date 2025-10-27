@@ -17,11 +17,7 @@ const SkeletonBox = ({ className }: { className: string }) => {
   const shimmer = useSharedValue(0);
 
   useEffect(() => {
-    shimmer.value = withRepeat(
-      withTiming(1, { duration: 1500 }),
-      -1,
-      false
-    );
+    shimmer.value = withRepeat(withTiming(1, { duration: 1500 }), -1, false);
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -30,14 +26,17 @@ const SkeletonBox = ({ className }: { className: string }) => {
   });
 
   return (
-    <Animated.View style={animatedStyle} className={`bg-white/10 ${className}`} />
+    <Animated.View
+      style={animatedStyle}
+      className={`bg-white/10 ${className}`}
+    />
   );
 };
 
 const LoadingSection = ({ isHome }: { isHome: boolean }) => {
   return (
     <LinearGradient
-      colors={["#1a1a2e", "#16213e", "#0f3460"]}
+      colors={["#fff", "#fff"]}
       start={[0, 0]}
       end={[1, 1]}
       className="flex-1"
@@ -50,14 +49,14 @@ const LoadingSection = ({ isHome }: { isHome: boolean }) => {
 // Home Screen Loading
 const HomeLoading = () => {
   return (
-    <View className="flex-1 pt-4">
+    <View className="flex-1 pt-4 ">
       {/* Enrolled Courses Section */}
       <View className="mb-4">
         <View className="px-5 mb-3">
-          <SkeletonBox className="w-32 mb-2 rounded-lg h-7" />
-          <SkeletonBox className="w-48 h-4 rounded-md" />
+          <SkeletonBox className="w-32 mb-2 rounded-lg h-7 bg-black/50" />
+          <SkeletonBox className="w-48 h-4 rounded-md bg-black/50" />
         </View>
-        
+
         {/* Horizontal Cards */}
         <View className="flex-row px-5">
           {[1, 2].map((item) => (
@@ -66,15 +65,15 @@ const HomeLoading = () => {
               className="mr-4 overflow-hidden border rounded-2xl border-white/10"
               style={{ width: CARD_WIDTH }}
             >
-              <SkeletonBox className="w-full h-40" />
-              <View className="p-4">
-                <SkeletonBox className="w-3/4 h-5 mb-3 rounded-md" />
+              <SkeletonBox className="w-full h-40 bg-black/50" />
+              <View className="p-4 ">
+                <SkeletonBox className="w-3/4 h-5 mb-3 rounded-md bg-black/50" />
                 <View className="flex-row items-center mb-3">
-                  <SkeletonBox className="w-20 h-4 mr-3 rounded-md" />
-                  <SkeletonBox className="w-24 h-4 rounded-md" />
+                  <SkeletonBox className="w-20 h-4 mr-3 rounded-md bg-black/50" />
+                  <SkeletonBox className="w-24 h-4 rounded-md bg-black/50" />
                 </View>
-                <SkeletonBox className="w-full h-1.5 mb-1 rounded-full" />
-                <SkeletonBox className="w-16 h-3 ml-auto rounded-md" />
+                <SkeletonBox className="w-full h-1.5 mb-1 rounded-full bg-black/50" />
+                <SkeletonBox className="w-16 h-3 ml-auto rounded-md bg-black/50" />
               </View>
             </View>
           ))}
@@ -84,8 +83,8 @@ const HomeLoading = () => {
       {/* Practice Navigation Section */}
       <View className="my-4">
         <View className="px-5 mb-3">
-          <SkeletonBox className="w-24 h-6 mb-1 rounded-lg" />
-          <SkeletonBox className="w-40 h-3 rounded-md" />
+          <SkeletonBox className="w-24 h-6 mb-1 rounded-lg bg-black/50 " />
+          <SkeletonBox className="w-40 h-3 rounded-md bg-black/50" />
         </View>
         <View className="flex-row px-5">
           {[1, 2, 3].map((item) => (
@@ -94,11 +93,11 @@ const HomeLoading = () => {
               className="mr-4 overflow-hidden border rounded-2xl border-white/10"
               style={{ width: width * 0.42 }}
             >
-              <SkeletonBox className="w-full h-32" />
+              <SkeletonBox className="w-full h-32 bg-black/50" />
               <View className="p-4">
                 <View className="flex-row items-center">
-                  <SkeletonBox className="w-10 h-10 mr-3 rounded-full" />
-                  <SkeletonBox className="flex-1 h-4 rounded-md" />
+                  <SkeletonBox className="w-10 h-10 mr-3 rounded-full bg-black/50" />
+                  <SkeletonBox className="flex-1 h-4 rounded-md bg-black/50" />
                 </View>
               </View>
             </View>
@@ -109,8 +108,8 @@ const HomeLoading = () => {
       {/* Course Progress Section */}
       <View className="px-5 mt-4">
         <View className="mb-3">
-          <SkeletonBox className="w-40 h-6 mb-1 rounded-lg" />
-          <SkeletonBox className="w-48 h-3 rounded-md" />
+          <SkeletonBox className="w-40 h-6 mb-1 rounded-lg bg-black/50" />
+          <SkeletonBox className="w-48 h-3 rounded-md bg-black/50" />
         </View>
         {[1, 2, 3].map((item) => (
           <View
@@ -118,16 +117,16 @@ const HomeLoading = () => {
             className="p-4 mb-3 border rounded-2xl border-white/10"
           >
             <View className="flex-row items-center mb-3">
-              <SkeletonBox className="w-12 h-12 mr-3 rounded-xl" />
+              <SkeletonBox className="w-12 h-12 mr-3 rounded-xl bg-black/50" />
               <View className="flex-1">
-                <SkeletonBox className="w-3/4 h-4 mb-2 rounded-md" />
-                <SkeletonBox className="w-1/2 h-3 rounded-md" />
+                <SkeletonBox className="w-3/4 h-4 mb-2 rounded-md bg-black/50" />
+                <SkeletonBox className="w-1/2 h-3 rounded-md bg-black/50" />
               </View>
             </View>
-            <SkeletonBox className="w-full h-2 mb-1 rounded-full" />
+            <SkeletonBox className="w-full h-2 mb-1 rounded-full bg-black/50" />
             <View className="flex-row justify-between">
-              <SkeletonBox className="w-16 h-3 rounded-md" />
-              <SkeletonBox className="w-12 h-3 rounded-md" />
+              <SkeletonBox className="w-16 h-3 rounded-md bg-black/50" />
+              <SkeletonBox className="w-12 h-3 rounded-md bg-black/50" />
             </View>
           </View>
         ))}
@@ -142,8 +141,8 @@ const ExploreLoading = () => {
     <View className="flex-1 pt-5">
       {/* Header */}
       <View className="px-5 mb-6">
-        <SkeletonBox className="w-48 h-8 mb-2 rounded-lg" />
-        <SkeletonBox className="w-56 h-4 rounded-md" />
+        <SkeletonBox className="w-48 h-8 mb-2 rounded-lg bg-black/50" />
+        <SkeletonBox className="w-56 h-4 rounded-md bg-black/50" />
       </View>
 
       {/* Domain Sections */}
@@ -168,11 +167,11 @@ const ExploreLoading = () => {
               >
                 {/* Banner */}
                 <SkeletonBox className="w-full h-40" />
-                
+
                 {/* Content */}
                 <View className="p-4">
                   <SkeletonBox className="w-full h-5 mb-3 rounded-md" />
-                  
+
                   {/* Stats */}
                   <View className="flex-row items-center justify-between mb-2">
                     <SkeletonBox className="w-24 h-4 rounded-md" />

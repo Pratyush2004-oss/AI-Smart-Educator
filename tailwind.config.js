@@ -15,6 +15,8 @@ module.exports = {
         'outfit-extrabold': ['Outfit-ExtraBold'],
         // Set Outfit as default sans font
         sans: ['Outfit-Regular', 'system-ui', 'sans-serif'],
+        "times": ["Times New Roman", "serif"],
+        "times-bold": ["Times New Roman Bold", "serif"],
       },
     },
   },

@@ -15,8 +15,8 @@ const TabLayout = () => {
       <Tabs
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: "#ffffff",
-          tabBarInactiveTintColor: "rgba(255,255,255,0.65)",
+          tabBarActiveTintColor: Colors.PRIMARY,
+          tabBarInactiveTintColor: Colors.PRIMARY_LIGHT,
           tabBarStyle: {
             backgroundColor: "transparent",
             borderTopWidth: 0,
@@ -25,7 +25,7 @@ const TabLayout = () => {
           },
           tabBarBackground: () => (
             <LinearGradient
-              colors={["#1a1a2e", "#16213e", "#0f3460"]}
+              colors={["#fff", "#fff", "#fff"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={StyleSheet.absoluteFill}
