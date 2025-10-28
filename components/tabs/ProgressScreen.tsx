@@ -132,10 +132,10 @@ const ProgressScreen = () => {
         {!isSearchVisible ? (
           <View className="flex-row items-center justify-between">
             <View className="flex-1 pr-3">
-              <Text className="text-2xl text-white font-outfit-extrabold">
+              <Text className="text-2xl font-outfit-extrabold">
                 Your Progress
               </Text>
-              <Text className="mt-1 text-base text-gray-500 font-outfit">
+              <Text className="mt-1 text-base text-gray-500 font-outfit-medium">
                 Continue learning where you left off ...
               </Text>
             </View>
@@ -143,7 +143,7 @@ const ProgressScreen = () => {
             <View className="flex-row items-center">
               <Pressable
                 onPress={toggleSort}
-                className="p-2 mr-2 border rounded-full bg-white/10 border-white/10"
+                className="p-2 mr-2 border border-black rounded-full bg-black/10"
               >
                 <Ionicons
                   name={
@@ -156,15 +156,15 @@ const ProgressScreen = () => {
                           : "funnel-outline"
                   }
                   size={18}
-                  color="#fff"
+                  color="#000"
                 />
               </Pressable>
 
               <Pressable
                 onPress={() => setIsSearchVisible(true)}
-                className="p-2 border rounded-full bg-white/10 border-white/10"
+                className="p-2 border border-black rounded-full bg-black/10"
               >
-                <Ionicons name="search-outline" size={18} color="#fff" />
+                <Ionicons name="search-outline" size={18} color="#000" />
               </Pressable>
             </View>
           </View>
@@ -178,7 +178,7 @@ const ProgressScreen = () => {
                 onChangeText={setsearch}
                 placeholder="Search courses..."
                 placeholderTextColor="#9ca3af"
-                className="flex-1 ml-2 text-white font-outfit"
+                className="flex-1 ml-2 font-outfit-medium"
                 returnKeyType="search"
                 blurOnSubmit={false}
                 autoCorrect={false}
@@ -224,13 +224,13 @@ const ProgressScreen = () => {
       };
 
       const Content = (
-        <View className="overflow-hidden border bg-white/5 rounded-2xl border-white/10">
+        <View className="overflow-hidden rounded-2xl">
           <View className="relative">
             <Image
               source={
                 imageAssets[item.banner_image as keyof typeof imageAssets]
               }
-              className="w-full h-40"
+              className="w-full h-48"
               resizeMode="cover"
             />
             <LinearGradient
@@ -248,17 +248,14 @@ const ProgressScreen = () => {
           </View>
 
           <View className="p-4">
-            <Text
-              className="text-lg text-white font-outfit-bold"
-              numberOfLines={2}
-            >
+            <Text className="text-lg font-outfit-bold" numberOfLines={2}>
               {item.courseTitle}
             </Text>
 
             <View className="flex-row items-center mt-3 mb-2">
               <View className="flex-row items-center mr-4">
                 <Ionicons name="book-outline" size={16} color="#9ca3af" />
-                <Text className="ml-1 text-base text-gray-400 font-outfit">
+                <Text className="ml-1 text-base text-gray-500 font-outfit">
                   {item.chaptersCount} chapters
                 </Text>
               </View>
@@ -269,7 +266,7 @@ const ProgressScreen = () => {
                   color={getProgressColor()}
                 />
                 <Text
-                  className="ml-1 text-base font-outfit"
+                  className="ml-1 text-base font-outfit-semibold"
                   style={{ color: getProgressColor() }}
                 >
                   {item.completedChaptersCount} completed
@@ -306,9 +303,17 @@ const ProgressScreen = () => {
           <APressable
             entering={FadeInRight.delay(index * 60).duration(240)}
             onPress={() => handleCoursePress(item)}
-            className="mb-3 mr-4 overflow-hidden rounded-2xl"
+            // "overflow-hidden" is REMOVED
+            // Background, border, and NEW shadow styles are ADDED
+            className="mb-3 mr-4 border rounded-2xl bg-white/5 border-white/10"
             disabled={loading !== null}
-            style={{ width: CARD_WIDTH }}
+            style={{
+              width: CARD_WIDTH,
+              shadowColor: "#0b1220",
+              shadowOffset: { width: 0, height: 6 },
+              shadowOpacity: 0.12,
+              shadowRadius: 12,
+            }}
           >
             {Content}
           </APressable>
@@ -319,7 +324,13 @@ const ProgressScreen = () => {
           onPress={() => handleCoursePress(item)}
           className="mb-3 mr-4 overflow-hidden rounded-2xl"
           disabled={loading !== null}
-          style={{ width: CARD_WIDTH }}
+          style={{
+            width: CARD_WIDTH,
+            shadowColor: "#0b1220",
+            shadowOffset: { width: 0, height: 6 },
+            shadowOpacity: 0.12,
+            shadowRadius: 12,
+          }}
         >
           {Content}
         </Pressable>
@@ -358,7 +369,7 @@ const ProgressScreen = () => {
           ) : (
             <View className="items-center justify-center flex-1 px-5 py-16">
               <Ionicons name="school-outline" size={56} color="#6b7280" />
-              <Text className="mt-3 text-base text-center text-gray-300 font-outfit">
+              <Text className="mt-3 text-lg text-center text-gray-500 font-outfit-bold">
                 No enrolled courses yet
               </Text>
             </View>

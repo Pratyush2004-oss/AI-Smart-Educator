@@ -20,7 +20,7 @@ const TabLayout = () => {
           tabBarStyle: {
             backgroundColor: "transparent",
             borderTopWidth: 0,
-            height: insets.bottom + 52,
+            height: insets.bottom + 40,
             elevation: 0,
           },
           tabBarBackground: () => (

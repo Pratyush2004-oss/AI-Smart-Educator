@@ -98,7 +98,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
               className="w-full max-w-md overflow-hidden border rounded-2xl border-white/20"
             >
               <LinearGradient
-                colors={["#1a1a2e", "#16213e", "#0f3460"]}
+                colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
                 start={[0, 0]}
                 end={[1, 1]}
                 className="p-6"
@@ -116,7 +116,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                         color={Colors.PRIMARY}
                       />
                     </View>
-                    <Text className="text-xl text-white font-outfit-extrabold">
+                    <Text className="text-xl font-outfit-extrabold">
                       Create New Course
                     </Text>
                   </View>
@@ -124,21 +124,22 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                   <Pressable
                     onPress={handleClose}
                     disabled={isLoading}
-                    className="p-2 rounded-full bg-white/10"
+                    className="p-2 rounded-full"
+                    style={{ backgroundColor: Colors.RED + "20" }}
                   >
-                    <Ionicons name="close" size={20} color="#fff" />
+                    <Ionicons name="close" size={20} color={Colors.RED} />
                   </Pressable>
                 </View>
 
                 {/* Description */}
-                <Text className="mb-4 text-sm text-gray-400 font-outfit">
+                <Text className="mb-4 text-sm text-gray-500 font-outfit-medium">
                   Enter a topic to generate a personalized course with
                   AI-powered content
                 </Text>
 
                 {/* Input Field */}
                 <View className="mb-6">
-                  <Text className="mb-2 text-sm text-white font-outfit-bold">
+                  <Text className="mb-2 text-base font-outfit-bold">
                     Course Topic
                   </Text>
                   <View className="flex-row items-center px-4 py-3 border rounded-xl bg-white/5 border-white/20">
@@ -148,7 +149,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                       onChangeText={setTopic}
                       placeholder="e.g., Python Programming, Web Development..."
                       placeholderTextColor="#6b7280"
-                      className="flex-1 ml-3 text-white font-outfit"
+                      className="flex-1 ml-3 font-outfit-medium"
                       editable={!isLoading}
                       autoFocus
                       returnKeyType="done"
@@ -157,7 +158,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                   </View>
 
                   {/* Character count */}
-                  <Text className="mt-1 text-xs text-right text-gray-500 font-outfit">
+                  <Text className="mt-1 text-xs text-right text-gray-500 font-outfit-medium">
                     {topic.length}/100
                   </Text>
                 </View>
@@ -170,7 +171,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                       size={18}
                       color="#60a5fa"
                     />
-                    <Text className="flex-1 ml-2 text-xs leading-5 text-blue-200 font-outfit">
+                    <Text className="flex-1 ml-2 text-xs leading-5 text-blue-500 font-outfit-medium">
                       AI will generate chapters, content, quizzes, and practice
                       materials based on your topic
                     </Text>
@@ -179,17 +180,6 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
 
                 {/* Action Buttons */}
                 <View className="flex-row gap-3">
-                  {/* Cancel Button */}
-                  <Pressable
-                    onPress={handleClose}
-                    disabled={isLoading}
-                    className="flex-1 p-4 border rounded-xl bg-white/5 border-white/10"
-                  >
-                    <Text className="text-base text-center text-white font-outfit-bold">
-                      Cancel
-                    </Text>
-                  </Pressable>
-
                   {/* Submit Button */}
                   <APressable
                     style={buttonStyle}

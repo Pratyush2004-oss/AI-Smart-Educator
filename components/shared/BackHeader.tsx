@@ -141,9 +141,9 @@ const BackHeader: React.FC<BackHeaderProps> = ({
         }
       >
         <LinearGradient
-          colors={[Colors.PRIMARY, "#ffffff"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+          colors={[Colors.WHITE, Colors.WHITE]}
+          start={{ x: 1, y: 0 }}
+          end={{ x: 0, y: 0 }}
         >
           {/* invisible text used to size the gradient */}
           <Text
@@ -176,7 +176,7 @@ const BackHeader: React.FC<BackHeaderProps> = ({
           <Animated.View className={" w-4/5"} style={titleAnimatedStyle}>
             <GradientText
               numberOfLines={1}
-              className="text-base text-wrap font-outfit-bold"
+              className="text-lg text-wrap font-outfit-bold"
             >
               {title}
             </GradientText>

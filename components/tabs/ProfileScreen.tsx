@@ -72,7 +72,7 @@ const ProfileScreen = () => {
           <Text className="text-2xl font-outfit-extrabold">
             {user?.name || "Guest User"}
           </Text>
-          <Text className="mt-1 text-sm text-gray-500 font-outfit">
+          <Text className="mt-1 text-base text-gray-500 font-outfit-medium">
             {user?.email || "guest@example.com"}
           </Text>
 

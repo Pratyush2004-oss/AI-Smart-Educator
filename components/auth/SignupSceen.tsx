@@ -295,7 +295,7 @@ const SignupScreen = () => {
                       {isLoading ? (
                         <ActivityIndicator color="#fff" />
                       ) : (
-                        <Text className="text-base text-[#8a5225] font-outfit-extrabold">
+                        <Text className="text-base text-white font-outfit-extrabold">
                           Sign Up
                         </Text>
                       )}
@@ -332,7 +332,6 @@ const SignupScreen = () => {
         {/* Domain Selection Modal */}
         <Modal
           visible={showDomainModal}
-          transparent
           animationType="fade"
           onRequestClose={() => setShowDomainModal(false)}
         >
@@ -340,7 +339,7 @@ const SignupScreen = () => {
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200)}
             onPress={() => setShowDomainModal(false)}
-            className="items-center justify-center flex-1 bg-black/90"
+            className="items-center justify-center flex-1 bg-black/80"
           >
             <AnimatedPressable
               entering={FadeIn.duration(300).delay(100)}
@@ -425,7 +424,7 @@ const SignupScreen = () => {
                     end={[1, 0]}
                     className="items-center py-3 rounded-lg"
                   >
-                    <Text className="text-base text-[#8a5225] font-outfit-extrabold">
+                    <Text className="text-base text-white font-outfit-extrabold">
                       Done ({input.domains?.length || 0} selected)
                     </Text>
                   </LinearGradient>

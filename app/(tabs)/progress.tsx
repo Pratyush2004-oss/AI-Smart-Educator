@@ -5,7 +5,7 @@ import React from "react";
 const Progress = () => {
   return (
     <LinearGradient
-      colors={["#1a1a2e", "#16213e", "#0f3460"]}
+      colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
       start={[0, 0]}
       end={[1, 1]}
       className="flex-1"

@@ -205,7 +205,7 @@ const LoginScreen = () => {
                       <ActivityIndicator color="#fff" />
                     ) : (
                       <Text
-                        className={`text-base text-[#8a5225] font-outfit-extrabold`}
+                        className={`text-base text-white font-outfit-extrabold`}
                       >
                         Login
                       </Text>

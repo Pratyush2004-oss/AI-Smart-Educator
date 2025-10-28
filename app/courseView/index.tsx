@@ -144,9 +144,9 @@ const SelectedCourseSection = () => {
                 Description
               </Text>
               <Text
-                className="mb-2 text-xs text-justify font-outfit-light"
+                className="mb-2 text-xs leading-5 text-justify font-outfit-medium"
                 numberOfLines={5}
-                style={{ color: Colors.PRIMARY_LIGHT }}
+                style={{ color: Colors.WHITE }}
               >
                 {selectedCourse.description}
               </Text>
@@ -264,9 +264,7 @@ const SelectedCourseSection = () => {
             {isLoading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text
-                className={`text-base text-[#8a5225] font-outfit-extrabold`}
-              >
+              <Text className={`text-base text-white font-outfit-extrabold`}>
                 {enrollBool
                   ? "Enroll to Course"
                   : selectedCourse!.completedChapter.length > 0

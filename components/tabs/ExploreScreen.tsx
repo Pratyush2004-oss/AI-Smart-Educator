@@ -198,7 +198,7 @@ const ExploreScreen = () => {
   return (
     <LinearGradient
       colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
-      className="flex-1 bg-[#f9f8f8]"
+      className="flex-1"
     >
       {isLoading ? (
         <LoadingSection isHome={false} />
