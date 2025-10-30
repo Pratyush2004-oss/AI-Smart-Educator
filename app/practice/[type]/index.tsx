@@ -39,6 +39,7 @@ const PracticeScreen = () => {
   } = useCourseStore();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedItem, setselectedItem] = useState<string | null>(null);
 
   const ChoiceArray = [
     {
@@ -88,6 +89,7 @@ const PracticeScreen = () => {
   const dataList = getDataList();
 
   const handleItemPress = async (item: any) => {
+    setselectedItem(item._id);
     // fetch first
     await ChoiceArray.find((item) => item.type === type)
       ?.fetchSingle(item)
@@ -99,6 +101,9 @@ const PracticeScreen = () => {
             | "/qa"
             | "/quiz",
         });
+      })
+      .finally(() => {
+        setselectedItem(null);
       });
   };
 
@@ -118,7 +123,11 @@ const PracticeScreen = () => {
     item: QuizType;
     index: number;
   }) => {
-    const percentage = (item.quizesResult / item.quizesCount) * 100;
+    const percentage =
+      item.quizesCount > 0 ? (item.quizesResult / item.quizesCount) * 100 : 0;
+    const percentageText = Number.isFinite(percentage)
+      ? percentage.toFixed(2)
+      : "0.00";
     const percColor =
       percentage >= 75
         ? Colors.GREEN
@@ -129,6 +138,7 @@ const PracticeScreen = () => {
       <APressable
         entering={FadeInDown.delay(index * 80).duration(300)}
         onPress={() => handleItemPress(item)}
+        disabled={selectedItem !== null}
         className="mb-4"
         style={{ width: CARD_WIDTH }}
       >
@@ -168,12 +178,12 @@ const PracticeScreen = () => {
             <View className="flex-row items-center justify-center pt-2 mb-2 border-t border-white/10">
               <Ionicons name="checkmark" size={12} color="#9ca3af" />
               <Text className="ml-1 text-xs text-gray-400 font-outfit">
-                Last Score:
+                Last Score:{" "}
                 <Text
                   className="text-sm font-outfit-extrabold"
                   style={{ color: percColor }}
                 >
-                  {percentage}%
+                  {percentageText}%
                 </Text>
               </Text>
             </View>

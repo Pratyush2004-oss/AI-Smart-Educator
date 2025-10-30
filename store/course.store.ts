@@ -34,7 +34,7 @@ interface CourseStoreInterface {
   // enroll to course
   enrollToCourse: (courseId: string) => Promise<void | boolean>;
   // create course
-  createCourse: (userInput: string) => Promise<void | boolean>;
+  createCourse: (userInput: string) => Promise<void>;
 
   // compolete course chapter
   completeCourseChapter: (chapterId: number) => Promise<void | boolean>;
@@ -74,7 +74,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
   createCourse: async (userInput: string) => {
     set({ isLoading: true });
     if (!userInput) {
-      Alert.alert("Error", "Please fill all the fields.");
+      Alert.alert("Error", "Please enter the topic.");
       return;
     }
 
@@ -98,7 +98,6 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
           },
         },
       ]);
-      return true;
     } catch (error: any) {
       if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
       else Alert.alert("Error", error.message);

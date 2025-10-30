@@ -2,10 +2,10 @@ import { Colors } from "@/assets/constants";
 import { useCourseStore } from "@/store/course.store";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Modal,
   Pressable,
   Text,
@@ -34,7 +34,6 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
   const [topic, setTopic] = useState("");
   const { isLoading, createCourse } = useCourseStore();
   const scale = useSharedValue(1);
-  const router = useRouter();
 
   const handleOpen = () => {
     setIsVisible(true);
@@ -42,18 +41,16 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
   };
 
   const handleClose = () => {
-    if (!isLoading) {
-      setIsVisible(false);
-      setTopic("");
-    }
+    setIsVisible(false);
+    setTopic("");
   };
-
   const handleSubmit = async () => {
-    await createCourse(topic).then((res) => {
-      if (res) {
-        router.push({ pathname: "/courseView", params: { enroll: "false" } });
-      }
-    });
+    if (topic.trim().length < 6) {
+      Alert.alert("Error", "Please enter a valid topic.");
+      return;
+    }
+    Alert.alert("Pending", "Course is being created, it will take a while...");
+    await createCourse(topic);
   };
 
   const buttonStyle = useAnimatedStyle(() => ({
@@ -71,7 +68,9 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
   return (
     <>
       {/* Trigger Button */}
-      <Pressable onPress={handleOpen}>{children}</Pressable>
+      <Pressable disabled={isLoading} onPress={handleOpen}>
+        {children}
+      </Pressable>
 
       {/* Modal */}
       <Modal
@@ -142,7 +141,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                   <Text className="mb-2 text-base font-outfit-bold">
                     Course Topic
                   </Text>
-                  <View className="flex-row items-center px-4 py-3 border rounded-xl bg-white/5 border-white/20">
+                  <View className="flex-row items-center px-4 py-3 border rounded-xl bg-black/5 border-black/20">
                     <Ionicons name="school-outline" size={18} color="#9ca3af" />
                     <TextInput
                       value={topic}

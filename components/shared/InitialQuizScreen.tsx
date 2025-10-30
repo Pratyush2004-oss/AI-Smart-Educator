@@ -115,17 +115,17 @@ const InitialQuizScreen = () => {
             </Text>
             <Text
               className="text-sm font-outfit-bold"
-              style={{ color: Colors.PRIMARY }}
+              style={{ color: Colors.GREEN }}
             >
               {progressPercent}%
             </Text>
           </View>
           <View className="w-full h-2 overflow-hidden rounded-full bg-white/10">
             <AView style={progressStyle} className="h-full rounded-full">
-              <LinearGradient
-                colors={[Colors.PRIMARY, Colors.PRIMARY_LIGHT]}
-                start={[0, 0]}
-                end={[1, 0]}
+              <View
+                style={{
+                  backgroundColor: "#228b22",
+                }}
                 className="h-full"
               />
             </AView>
@@ -150,12 +150,6 @@ const InitialQuizScreen = () => {
               {currentQuiz.question}
             </Text>
           </View>
-          <Text
-            className={`absolute bottom-0 text-xs leading-7 right-5 font-outfit-medium`}
-            style={{ color: Colors.PRIMARY }}
-          >
-            {currentQuiz.category}
-          </Text>
         </AView>
 
         {/* Options */}
@@ -179,10 +173,8 @@ const InitialQuizScreen = () => {
                   <View
                     className={`w-6 h-6 rounded-full border-2 items-center justify-center mr-3`}
                     style={{
-                      borderColor: isSelected ? Colors.PRIMARY : "#6b7280",
-                      backgroundColor: isSelected
-                        ? Colors.PRIMARY
-                        : "transparent",
+                      borderColor: isSelected ? "#228b22" : "#6b7280",
+                      backgroundColor: isSelected ? "#228b22" : "transparent",
                     }}
                   >
                     {isSelected && (

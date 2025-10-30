@@ -6,7 +6,7 @@ export const domains = [
   "Science & Engineering",
   "Tech & Coding",
   "Mathematics",
-  "Physics, Chemistry & Biology",
+  "Physics, Chemistry and Biology",
 ];
 
 // apis
@@ -112,6 +112,18 @@ export const imageAssets = {
   "Science-&-Engineering-4.png": require("@/assets/images/Science-&-Engineering-4.png"),
   "Science-&-Engineering-5.png": require("@/assets/images/Science-&-Engineering-5.png"),
   "Science-&-Engineering-6.png": require("@/assets/images/Science-&-Engineering-6.png"),
+  "Mathematics-1.png": require("@/assets/images/Mathematics-1.png"),
+  "Mathematics-2.png": require("@/assets/images/Mathematics-2.png"),
+  "Mathematics-3.png": require("@/assets/images/Mathematics-3.png"),
+  "Mathematics-4.png": require("@/assets/images/Mathematics-4.png"),
+  "Mathematics-5.png": require("@/assets/images/Mathematics-5.png"),
+  "Mathematics-6.png": require("@/assets/images/Mathematics-6.png"),
+  "Physics,-Chemistry-and-Biology-1.png": require("@/assets/images/Physics,-Chemistry-and-Biology-1.png"),
+  "Physics,-Chemistry-and-Biology-2.png": require("@/assets/images/Physics,-Chemistry-and-Biology-2.png"),
+  "Physics,-Chemistry-and-Biology-3.png": require("@/assets/images/Physics,-Chemistry-and-Biology-3.png"),
+  "Physics,-Chemistry-and-Biology-4.png": require("@/assets/images/Physics,-Chemistry-and-Biology-4.png"),
+  "Physics,-Chemistry-and-Biology-5.png": require("@/assets/images/Physics,-Chemistry-and-Biology-5.png"),
+  "Physics,-Chemistry-and-Biology-6.png": require("@/assets/images/Physics,-Chemistry-and-Biology-6.png"),
 };
 
 export const ProfileMenu = [

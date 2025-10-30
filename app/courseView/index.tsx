@@ -4,7 +4,7 @@ import { useCourseStore } from "@/store/course.store";
 import { ChapterType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -39,11 +39,24 @@ const SelectedCourseSection = () => {
 
   // get the index of the chapter which is not completed yet
   const getCurrentChapterIndex = () => {
-    return (
-      selectedCourse!.completedChapter.sort((a, b) => a - b)[
-        selectedCourse!.completedChapter.length - 1
-      ] + 1
-    );
+    const chaptersLen = selectedCourse?.chapters?.length ?? 0;
+    if (!selectedCourse || chaptersLen === 0) return 0;
+
+    const completed = Array.isArray(selectedCourse.completedChapter)
+      ? [...selectedCourse.completedChapter]
+      : [];
+
+    if (completed.length === 0) return 0;
+
+    // sort a copy (do not mutate original state)
+    completed.sort((a, b) => a - b);
+    const lastCompleted = completed[completed.length - 1];
+    const nextIndex = lastCompleted + 1;
+
+    // if last completed was the final chapter, wrap to first chapter (0)
+    if (nextIndex >= chaptersLen) return 0;
+
+    return nextIndex;
   };
 
   // handle press start learning
@@ -61,13 +74,16 @@ const SelectedCourseSection = () => {
   // handle press continue learning
   const handleContinueLearning = () => {
     if (enrollBool) return;
+
+    const chapterIdx = getCurrentChapterIndex();
+    const chapter =
+      selectedCourse!.chapters[chapterIdx] ?? selectedCourse!.chapters[0];
+
     router.push({
       pathname: "/chapterView",
       params: {
-        chapterIdx: getCurrentChapterIndex(),
-        chapterParams: JSON.stringify(
-          selectedCourse!.chapters[getCurrentChapterIndex()]
-        ),
+        chapterIdx,
+        chapterParams: JSON.stringify(chapter),
       },
     });
   };
@@ -88,6 +104,7 @@ const SelectedCourseSection = () => {
       })
       .finally(() => setisLoading(false));
   };
+
   if (!selectedCourse)
     return (
       <LinearGradient
@@ -134,7 +151,7 @@ const SelectedCourseSection = () => {
                 colors={["transparent", "rgba(0,0,0,0.7)"]}
                 className="absolute bottom-0 left-0 right-0 h-20"
               />
-              <Text className="absolute text-2xl text-white font-outfit-extrabold bottom-3 left-5">
+              <Text className="absolute w-[90%] text-2xl text-white font-outfit-extrabold bottom-3 left-5">
                 {selectedCourse.courseTitle}
               </Text>
             </View>
@@ -168,6 +185,7 @@ const SelectedCourseSection = () => {
                 {selectedCourse.chaptersCount} chapters
                 {!enrollBool && (
                   <Text className="mb-2 text-sm text-gray-300 font-outfit">
+                    {" "}
                     • {selectedCourse.completedChaptersCount ?? 0} completed
                   </Text>
                 )}
@@ -175,7 +193,9 @@ const SelectedCourseSection = () => {
               {!enrollBool && (
                 <Text className="mb-2 text-xs text-gray-400 font-outfit">
                   Created:{" "}
-                  {new Date(selectedCourse.createdAt).toLocaleTimeString()}
+                  {new Date(selectedCourse.createdAt).toDateString() +
+                    ", " +
+                    new Date(selectedCourse.createdAt).toLocaleTimeString()}
                 </Text>
               )}
             </View>

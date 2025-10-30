@@ -385,9 +385,9 @@ const SignupScreen = () => {
                       >
                         <View className="flex-row items-center flex-1">
                           <View
-                            className={`w-5 h-5 rounded-full border-2 mr-3 items-center justify-center ${
+                            className={`w-5 h-5 rounded-full border mr-3 items-center justify-center ${
                               isSelected
-                                ? "border-white bg-white/20"
+                                ? "border-green-400 bg-white/20"
                                 : "border-gray-500"
                             }`}
                           >
@@ -395,7 +395,7 @@ const SignupScreen = () => {
                               <Ionicons
                                 name="checkmark"
                                 size={14}
-                                color={Colors.PRIMARY}
+                                color={Colors.GREEN}
                               />
                             )}
                           </View>
