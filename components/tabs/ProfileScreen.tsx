@@ -16,7 +16,7 @@ const APressable = Animated.createAnimatedComponent(Pressable);
 const ProfileScreen = () => {
   const { enrolledCourseList } = useCourseStore();
   const router = useRouter();
-  const { user } = useUserStore();
+  const { user, tokens } = useUserStore();
   const { logoutHook } = useUserHook();
 
   const handleMenuPress = (path: string, type: string) => {
@@ -105,10 +105,10 @@ const ProfileScreen = () => {
                 className="text-2xl font-outfit-extrabold"
                 style={{ color: Colors.GREEN }}
               >
-                45h
+                {String(tokens ?? 0)}
               </Text>
               <Text className="mt-1 text-sm text-gray-500 font-outfit">
-                Learning
+                Tokens
               </Text>
             </View>
           </View>

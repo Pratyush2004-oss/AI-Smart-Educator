@@ -1,5 +1,6 @@
 import { Colors, imageAssets } from "@/assets/constants/index";
 import BackHeader from "@/components/shared/BackHeader";
+import VideoList from "@/components/shared/VideoList";
 import { useCourseStore } from "@/store/course.store";
 import { ChapterType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
@@ -242,13 +243,19 @@ const SelectedCourseSection = () => {
                         }`}
                       >
                         <Ionicons
-                          name={isCompleted ? "checkmark-circle" : "play"}
+                          name={
+                            isCompleted && !enrollBool
+                              ? "checkmark-circle"
+                              : "play"
+                          }
                           size={20}
-                          color={isCompleted ? "#22c55e" : "#9ca3af"}
+                          color={
+                            isCompleted && !enrollBool ? "#22c55e" : "#9ca3af"
+                          }
                         />
                       </TouchableOpacity>
                     </View>
-                    {isCompleted && (
+                    {isCompleted && !enrollBool && (
                       <Text className="ml-2 text-xs text-green-400 font-outfit-bold">
                         Completed
                       </Text>
@@ -258,6 +265,11 @@ const SelectedCourseSection = () => {
               }
             )}
           </AView>
+
+          {/* Video List */}
+          {selectedCourse.videos.length > 0 && (
+            <VideoList videos={selectedCourse.videos} tilte="Videos" />
+          )}
         </ScrollView>
         <TouchableOpacity
           onPress={

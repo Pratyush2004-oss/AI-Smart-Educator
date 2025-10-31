@@ -1,5 +1,6 @@
 import { Colors } from "@/assets/constants";
 import { useCourseStore } from "@/store/course.store";
+import { showAlert } from "@/utils/AlertService";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -46,10 +47,10 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
   };
   const handleSubmit = async () => {
     if (topic.trim().length < 6) {
-      Alert.alert("Error", "Please enter a valid topic.");
+      showAlert("Error", "Please enter a valid topic.");
       return;
     }
-    Alert.alert("Pending", "Course is being created, it will take a while...");
+    showAlert("Pending", "Course is being created, it will take a while...");
     await createCourse(topic);
   };
 

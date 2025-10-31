@@ -10,7 +10,7 @@ import { create } from "zustand";
 import { useUserStore } from "./auth.store";
 import axios from "axios";
 import { CourseApis } from "@/assets/constants";
-import { Alert } from "react-native";
+import { showAlert } from "@/utils/AlertService";
 
 interface CourseStoreInterface {
   enrolledCourseList: CourseType[];
@@ -74,7 +74,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
   createCourse: async (userInput: string) => {
     set({ isLoading: true });
     if (!userInput) {
-      Alert.alert("Error", "Please enter the topic.");
+      showAlert("Error", "Please enter the topic.", [{ text: "OK" }]);
       return;
     }
 
@@ -90,7 +90,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
-      Alert.alert("Success", response.data.message, [
+      showAlert("Success", response.data.message, [
         {
           text: "OK",
           onPress: () => {
@@ -99,8 +99,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         },
       ]);
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     } finally {
       set({ isLoading: false });
     }
@@ -172,7 +172,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
           completedChapter: response.data.completedChapter,
         },
       });
-      Alert.alert("Success", response.data.message, [
+      showAlert("Success", response.data.message, [
         {
           text: "OK",
           onPress: () => {
@@ -183,8 +183,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       ]);
       return true;
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
   // compolete course chapter
@@ -203,13 +203,13 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
-      Alert.alert("Success", response.data.message);
+      showAlert("Success", response.data.message);
       get().getCourseInfo(get().selectedCourse!);
       get().getCourseList();
       return true;
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
 
@@ -226,8 +226,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       if (response.status === 400) throw new Error(response.data.message);
       set({ FlashcardList: response.data.flashcards });
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
   // fetchFlashcardDetails
@@ -251,8 +251,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         },
       });
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
 
@@ -269,8 +269,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       if (response.status === 400) throw new Error(response.data.message);
       set({ QaList: response.data.qas });
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
   // fetch QaDetails
@@ -289,8 +289,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       if (response.status === 400) throw new Error(response.data.message);
       set({ selectedQa: { ...qa, qaDetail: response.data.qaDetail } });
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
 
@@ -307,8 +307,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       if (response.status === 400) throw new Error(response.data.message);
       set({ Quizlist: response.data.quizes });
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
   // fetch quiz detials
@@ -327,8 +327,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       if (response.status === 400) throw new Error(response.data.message);
       set({ selectedQuiz: { ...quiz, quizDetail: response.data.quizDetail } });
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
   // submit quiz result
@@ -337,12 +337,13 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
     const quizId = get().selectedQuiz?._id;
     try {
       if (!token || !quizId || !result.length) {
-        Alert.alert("Error", "Please provide all the details");
+        showAlert("Error", "Please provide all the details");
         return;
       }
+      const quizMarks = result.filter((item) => item.isCorrect).length;
       const response = await axios.post(
         CourseApis.submitQuiz,
-        { quizId, quizResult: result },
+        { quizId, quizResult: result, marks: quizMarks },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -350,12 +351,12 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
-      Alert.alert("Success", response.data.message);
+      showAlert("Success", response.data.message);
       get().fetchQuizList();
       return true;
     } catch (error: any) {
-      if (error.isAxiosError) Alert.alert("Error", error.response.data.message);
-      else Alert.alert("Error", error.message);
+      if (error.isAxiosError) showAlert("Error", error.response.data.message);
+      else showAlert("Error", error.message);
     }
   },
   // reset Data

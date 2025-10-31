@@ -39,6 +39,13 @@ export type CourseType = {
   createdAt: string;
   chapters: ChapterType[];
   completedChapter: number[];
+  videos: VideoType[];
+};
+
+export type VideoType = {
+  url: "";
+  title: "";
+  thumbnail: "";
 };
 
 export type RecommendedCoursesType = {

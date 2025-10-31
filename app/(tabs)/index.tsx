@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
-import React from "react";
 import HomeScreen from "@/components/tabs/HomeScreen";
+import React from "react";
+import { View } from "react-native";
 
 const Home = () => {
   return (

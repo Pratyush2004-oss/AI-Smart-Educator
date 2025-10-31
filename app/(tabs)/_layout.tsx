@@ -6,12 +6,26 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import { useCourseStore } from "@/store/course.store";
+import Loader from "@/components/shared/Loader";
 
 const TabLayout = () => {
   const insets = useSafeAreaInsets();
+  const { isLoading } = useCourseStore();
   return (
-    <View className="flex-1">
+    <View className="relative flex-1">
       <TabHeader />
+      {isLoading && (
+        <Loader
+          centered={false}
+          // place above tab bar and a bit inset from edges
+          style={{
+            right: 16,
+            bottom: insets.bottom + 50,
+            zIndex: 50,
+          }}
+        />
+      )}
       <Tabs
         screenOptions={{
           headerShown: false,

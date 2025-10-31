@@ -131,7 +131,7 @@ const CourseProgressList = () => {
 
             {/* Content */}
             <View className="p-4">
-              <Text className="text-lg font-outfit-bold" numberOfLines={2}>
+              <Text className="text-lg font-outfit-bold" numberOfLines={1}>
                 {item.courseTitle}
               </Text>
 
@@ -166,7 +166,7 @@ const CourseProgressList = () => {
 
               {/* Progress */}
               <View className="mt-2">
-                <View className="w-full h-1.5 overflow-hidden rounded-full bg-white/10 ">
+                <View className="w-full h-1.5 overflow-hidden rounded-full bg-gray-400/10 ">
                   <View
                     className="h-full rounded-full"
                     style={{

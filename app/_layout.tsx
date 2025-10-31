@@ -6,6 +6,7 @@ import { useFonts } from "@/hooks/useFonts";
 import { useEffect } from "react";
 import CheckingAuthScreen from "@/components/shared/CheckingAuthScreen";
 import { ProtectedRoute } from "@/components/shared/Redirect";
+import CustomAlert from "@/components/shared/AlertBox";
 // Prevent the splash screen from auto-hiding before asset loading is complete
 SplashScreen.preventAutoHideAsync();
 
@@ -30,6 +31,7 @@ export default function RootLayout() {
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="(tabs)" />
           </Stack>
+          <CustomAlert />
         </SafeScreen>
       </ProtectedRoute>
     </SafeAreaProvider>

@@ -169,7 +169,7 @@ const PracticeScreen = () => {
           <View className="p-4">
             <Text
               className="mb-2 text-sm text-center text-white font-outfit-bold"
-              numberOfLines={2}
+              numberOfLines={1}
             >
               {item.courseTitle}
             </Text>
@@ -238,7 +238,7 @@ const PracticeScreen = () => {
           <View className="p-4">
             <Text
               className="mb-2 text-sm text-center text-white font-outfit-bold"
-              numberOfLines={2}
+              numberOfLines={1}
             >
               {item.courseTitle}
             </Text>
@@ -288,7 +288,7 @@ const PracticeScreen = () => {
           <View className="p-4">
             <Text
               className="mb-2 text-sm text-center text-white font-outfit-bold"
-              numberOfLines={2}
+              numberOfLines={1}
             >
               {item.courseTitle}
             </Text>

@@ -1,15 +1,16 @@
-import { LoginInputType, SignupInputType, UserType } from "@/types";
-import { create } from "zustand";
-import axios from "axios";
 import { domains, UserApis } from "@/assets/constants/index";
-import { Alert } from "react-native";
+import { LoginInputType, SignupInputType, UserType } from "@/types";
+import { showAlert } from "@/utils/AlertService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { create } from "zustand";
 
 interface UserStoreInterface {
   isAuthenticated: boolean;
   isCheckingAuth: boolean;
   user: UserType | null;
   token: string | null;
+  tokens: Number;
 
   signup: (userInput: SignupInputType) => Promise<void>;
   login: (userInput: LoginInputType) => Promise<void>;
@@ -23,6 +24,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
   isCheckingAuth: true,
   user: null,
   token: null,
+  tokens: 0,
 
   //   signup controller
   signup: async (userInput) => {
@@ -35,12 +37,12 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         !userInput.domains ||
         domains.length === 0
       ) {
-        Alert.alert("Error", "Please fill all the fields.");
+        showAlert("Error", "Please fill all the fields.");
       }
 
       //   check for valid email
       if (!/^\S+@\S+\.\S+$/.test(userInput.email)) {
-        Alert.alert("Error", "Please enter a valid email address.");
+        showAlert("Error", "Please enter a valid email address.");
       }
 
       const response = await axios.post(UserApis.registerUser, userInput);
@@ -50,26 +52,27 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         isAuthenticated: true,
         user: response.data.user,
         token: response.data.token,
+        tokens: response.data.tokens,
       });
-      Alert.alert("Success", response.data.message);
+      showAlert("Success", response.data.message);
       await AsyncStorage.setItem("token", response.data.token);
     } catch (error: any) {
       if (error.isAxiosError) {
-        Alert.alert("Error", error.response.data.message);
+        showAlert("Error", error.response.data.message);
       } else {
-        Alert.alert("Error", error.message);
+        showAlert("Error", error.message);
       }
     }
   },
   //   login controller
   login: async (userInput) => {
     if (!userInput.email || !userInput.password) {
-      Alert.alert("Error", "Please fill all the fields.");
+      showAlert("Error", "Please fill all the fields.");
       return;
     }
 
     if (!/^\S+@\S+\.\S+$/.test(userInput.email)) {
-      Alert.alert("Error", "Please enter a valid email address.");
+      showAlert("Error", "Please enter a valid email address.");
       return;
     }
     try {
@@ -80,14 +83,15 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         isAuthenticated: true,
         user: response.data.user,
         token: response.data.token,
+        tokens: response.data.tokens,
       });
-      Alert.alert("Success", response.data.message);
+      showAlert("Success", response.data.message);
       await AsyncStorage.setItem("token", response.data.token);
     } catch (error: any) {
       if (error.isAxiosError) {
-        Alert.alert("Error", error.response.data.message);
+        showAlert("Error", error.response.data.message);
       } else {
-        Alert.alert("Error", error.message);
+        showAlert("Error", error.message);
       }
     }
   },
@@ -103,6 +107,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
           isAuthenticated: false,
           token: null,
           user: null,
+          tokens: 0,
         });
       }
 
@@ -117,6 +122,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         isCheckingAuth: false,
         isAuthenticated: true,
         user: response.data.user,
+        tokens: response.data.tokens,
       });
     } catch (error) {
     } finally {
@@ -131,10 +137,11 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         isAuthenticated: false,
         user: null,
         token: null,
+        tokens: 0,
       });
-      Alert.alert("Logged out successfully");
+      showAlert("Logged out successfully");
     } catch (error) {
-      Alert.alert("Error Logging out");
+      showAlert("Error Logging out");
     }
   },
   //   attempt initial quiz
@@ -152,7 +159,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
-      Alert.alert("Success", response.data.message, [
+      showAlert("Success", response.data.message, [
         {
           text: "OK",
           onPress: () => {
@@ -162,9 +169,9 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
       ]);
     } catch (error: any) {
       if (error.isAxiosError) {
-        Alert.alert("Error", error.response.data.message);
+        showAlert("Error", error.response.data.message);
       } else {
-        Alert.alert("Error", error.message);
+        showAlert("Error", error.message);
       }
     }
   },
@@ -175,6 +182,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
       user: null,
       token: null,
       isCheckingAuth: false,
+      tokens: 0,
     });
   },
 }));

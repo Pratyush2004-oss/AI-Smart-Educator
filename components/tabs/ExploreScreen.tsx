@@ -181,11 +181,12 @@ const ExploreScreen = () => {
     );
   };
 
-  if (!recommendedCourseList || recommendedCourseList.length === 0) {
+  const EmptyState = () => {
     return (
       <LinearGradient
         colors={["#f9f8f8", "#f9f8f8", "#f9f8f8"]}
-        className="items-center justify-center flex-1"
+        className="items-center justify-center flex-1 "
+        style={{ marginVertical: "auto" }}
       >
         <Ionicons name="search-outline" size={64} color="#6b7280" />
         <Text className="mt-4 text-lg text-gray-300 font-outfit">
@@ -193,7 +194,7 @@ const ExploreScreen = () => {
         </Text>
       </LinearGradient>
     );
-  }
+  };
 
   return (
     <LinearGradient
@@ -208,7 +209,12 @@ const ExploreScreen = () => {
           renderItem={renderDomainSection}
           keyExtractor={(item) => item.domain}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingTop: 20, paddingBottom: 40 }}
+          contentContainerStyle={{
+            paddingTop: 20,
+            paddingBottom: 40,
+            flexGrow: 1,
+          }}
+          ListEmptyComponent={EmptyState}
           ListHeaderComponent={
             <AView entering={FadeInDown.duration(300)} className="px-5 mb-6">
               <Text className="text-2xl font-outfit-extrabold">
