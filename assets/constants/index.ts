@@ -7,6 +7,7 @@ export const domains = [
   "Tech & Coding",
   "Mathematics",
   "Physics, Chemistry and Biology",
+  "History and Mythology",
 ];
 
 // apis
@@ -124,6 +125,12 @@ export const imageAssets = {
   "Physics,-Chemistry-and-Biology-4.png": require("@/assets/images/Physics,-Chemistry-and-Biology-4.png"),
   "Physics,-Chemistry-and-Biology-5.png": require("@/assets/images/Physics,-Chemistry-and-Biology-5.png"),
   "Physics,-Chemistry-and-Biology-6.png": require("@/assets/images/Physics,-Chemistry-and-Biology-6.png"),
+  "History-and-Mythology-1.png": require("@/assets/images/History-and-Mythology-1.png"),
+  "History-and-Mythology-2.png": require("@/assets/images/History-and-Mythology-2.png"),
+  "History-and-Mythology-3.png": require("@/assets/images/History-and-Mythology-3.png"),
+  "History-and-Mythology-4.png": require("@/assets/images/History-and-Mythology-4.png"),
+  "History-and-Mythology-5.png": require("@/assets/images/History-and-Mythology-5.png"),
+  "History-and-Mythology-6.png": require("@/assets/images/History-and-Mythology-6.png"),
 };
 
 export const ProfileMenu = [

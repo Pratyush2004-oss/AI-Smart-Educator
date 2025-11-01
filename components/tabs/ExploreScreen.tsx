@@ -77,7 +77,7 @@ const ExploreScreen = () => {
           <View className="relative">
             <Image
               source={
-                imageAssets[item.banner_image as keyof typeof imageAssets]
+                imageAssets[item.banner_image as keyof typeof imageAssets] || imageAssets["Arts-&-Creativity-1.png"]
               }
               className="w-full h-40"
               resizeMode="cover"
