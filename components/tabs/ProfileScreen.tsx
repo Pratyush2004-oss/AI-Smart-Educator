@@ -236,11 +236,12 @@ const ProfileScreen = () => {
               </LinearGradient>
             </APressable>
           ))}
+          
           {/* logout button */}
           <APressable
             entering={FadeInDown.delay(7 * 60).duration(300)}
             onPress={logoutHook}
-            className="mb-3 overflow-hidden border rounded-xl border-white/10"
+            className="mb-3 overflow-hidden border rounded-xl border-red-500/50"
           >
             <LinearGradient
               colors={["rgba(239, 68, 68, 0.1)", "rgba(220, 38, 38, 0.05)"]}

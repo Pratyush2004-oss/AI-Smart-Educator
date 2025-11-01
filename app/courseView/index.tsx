@@ -3,6 +3,7 @@ import BackHeader from "@/components/shared/BackHeader";
 import VideoList from "@/components/shared/VideoList";
 import { useCourseStore } from "@/store/course.store";
 import { ChapterType } from "@/types";
+import { showAlert } from "@/utils/AlertService";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -27,6 +28,8 @@ const SelectedCourseSection = () => {
   const [isLoading, setisLoading] = useState(false);
   const router = useRouter();
   const { selectedCourse, enrollToCourse } = useCourseStore();
+
+  // chapter press handler
   const handleChapterPress = (chapterIdx: number, chapter: ChapterType) => {
     if (enrollBool) return;
     router.push({
@@ -90,20 +93,31 @@ const SelectedCourseSection = () => {
   };
 
   // enroll handler
-  const handleEnroll = async () => {
-    setisLoading(true);
-    await enrollToCourse(selectedCourse!._id)
-      .then((res) => {
-        if (res) {
-          router.replace({
-            pathname: "/courseView",
-            params: {
-              enroll: "false",
-            },
-          });
-        }
-      })
-      .finally(() => setisLoading(false));
+  const handleEnroll = () => {
+    showAlert("Enroll", "Are you sure you want to enroll? ", [
+      {
+        text: "Cancel",
+        style: "destructive",
+      },
+      {
+        text: "OK",
+        onPress: async () => {
+          setisLoading(true);
+          await enrollToCourse(selectedCourse!._id)
+            .then((res) => {
+              if (res) {
+                router.replace({
+                  pathname: "/courseView",
+                  params: {
+                    enroll: "false",
+                  },
+                });
+              }
+            })
+            .finally(() => setisLoading(false));
+        },
+      },
+    ]);
   };
 
   if (!selectedCourse)
@@ -268,7 +282,11 @@ const SelectedCourseSection = () => {
 
           {/* Video List */}
           {selectedCourse.videos.length > 0 && (
-            <VideoList videos={selectedCourse.videos} tilte="Videos" />
+            <VideoList
+              videos={selectedCourse.videos}
+              tilte="Videos"
+              enroll={enrollBool}
+            />
           )}
         </ScrollView>
         <TouchableOpacity
@@ -291,18 +309,32 @@ const SelectedCourseSection = () => {
             }
             start={[0, 0]}
             end={[1, 0]}
-            className="items-center py-3 rounded-lg"
+            className="flex-row items-center justify-center gap-2 py-3 rounded-lg"
           >
             {isLoading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text className={`text-base text-white font-outfit-extrabold`}>
-                {enrollBool
-                  ? "Enroll to Course"
-                  : selectedCourse!.completedChapter.length > 0
-                    ? "Continue Learning"
-                    : "Start Learning"}
-              </Text>
+              <>
+                {enrollBool && (
+                  <View
+                    style={{ borderRadius: 20 }}
+                    className="flex-row items-center justify-center gap-0 px-2 py-1 rounded-full bg-blue-500/50"
+                  >
+                    <Image
+                      source={require("@/assets/images/token.png")}
+                      className="size-5"
+                    />
+                    <Text className="text-white font-outfit-semibold">5</Text>
+                  </View>
+                )}
+                <Text className={`text-base text-white font-outfit-extrabold`}>
+                  {enrollBool
+                    ? "Enroll to Course"
+                    : selectedCourse!.completedChapter.length > 0
+                      ? "Continue Learning"
+                      : "Start Learning"}
+                </Text>
+              </>
             )}
           </LinearGradient>
         </TouchableOpacity>

@@ -21,7 +21,7 @@ const TabLayout = () => {
           // place above tab bar and a bit inset from edges
           style={{
             right: 16,
-            bottom: insets.bottom + 50,
+            bottom: insets.bottom + 55,
             zIndex: 50,
           }}
         />
@@ -34,7 +34,7 @@ const TabLayout = () => {
           tabBarStyle: {
             backgroundColor: "transparent",
             borderTopWidth: 0,
-            height: insets.bottom + 40,
+            height: insets.bottom + 50,
             elevation: 0,
           },
           tabBarBackground: () => (

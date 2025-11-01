@@ -1,5 +1,6 @@
 import { Colors } from "@/assets/constants";
 import type { VideoType } from "@/types";
+import { showAlert } from "@/utils/AlertService";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -24,10 +25,12 @@ const VideoCard = memo(
     video,
     onPress,
     index,
+    enroll,
   }: {
     video: VideoType;
     onPress: (v: VideoType) => void;
     index: number;
+    enroll: boolean;
   }) => {
     const thumbnail = video.thumbnail;
 
@@ -70,17 +73,19 @@ const VideoCard = memo(
                 height: 56,
               }}
             />
-            <View className="absolute right-3 bottom-3">
-              <LinearGradient
-                colors={[Colors.PRIMARY, Colors.PRIMARY_LIGHT]}
-                className="items-center justify-center rounded-full size-10"
-                style={{
-                  borderRadius: 20,
-                }}
-              >
-                <Ionicons name="play" size={20} color="#fff" />
-              </LinearGradient>
-            </View>
+            {!enroll && (
+              <View className="absolute right-3 bottom-3">
+                <LinearGradient
+                  colors={[Colors.PRIMARY, Colors.PRIMARY_LIGHT]}
+                  className="items-center justify-center rounded-full size-10"
+                  style={{
+                    borderRadius: 20,
+                  }}
+                >
+                  <Ionicons name="play" size={20} color="#fff" />
+                </LinearGradient>
+              </View>
+            )}
           </View>
 
           {/* Body */}
@@ -101,13 +106,19 @@ const VideoCard = memo(
 const VideoList = ({
   videos,
   tilte,
+  enroll,
 }: {
   videos: VideoType[];
   tilte: string;
+  enroll?: boolean;
 }) => {
   const router = useRouter();
 
   const handlePress = (video: VideoType) => {
+    if (enroll) {
+      showAlert("Notice", "Enroll to the course first.");
+      return;
+    }
     router.push({
       pathname: "/videoView",
       params: { videoParams: JSON.stringify(video) },
@@ -129,7 +140,12 @@ const VideoList = ({
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 8 }}
         keyExtractor={(v, i) => String((v as any)._id ?? (v as any).id ?? i)}
         renderItem={({ item, index }) => (
-          <VideoCard video={item} index={index} onPress={handlePress} />
+          <VideoCard
+            video={item}
+            index={index}
+            onPress={handlePress}
+            enroll={enroll ?? false}
+          />
         )}
       />
     </View>

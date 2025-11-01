@@ -150,14 +150,14 @@ export const ProfileMenu = [
   },
   {
     name: "Quiz",
-    icon: "analytics-outline", //Ionic Icons
+    icon: "help-circle-outline", //Ionic Icons
     path: "/practice/[type]",
     type: "Quiz",
     desc: "Get quizes on all my courses",
   },
   {
     name: "Flashcards",
-    icon: "bar-chart-outline", //Ionic Icons
+    icon: "id-card-outline", //Ionic Icons
     path: "/practice/[type]",
     type: "Flashcards",
     desc: "Get flashcards on all my courses",

@@ -90,6 +90,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
+      // update the token value in auth store
+      useUserStore.setState({ tokens: response.data.tokens });
       showAlert("Success", response.data.message, [
         {
           text: "OK",
@@ -172,6 +174,8 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
           completedChapter: response.data.completedChapter,
         },
       });
+      // update the token value in auth store
+      useUserStore.setState({ tokens: response.data.tokens });
       showAlert("Success", response.data.message, [
         {
           text: "OK",
@@ -351,6 +355,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
         }
       );
       if (response.status === 400) throw new Error(response.data.message);
+      useUserStore.setState({ tokens: response.data.tokens });
       showAlert("Success", response.data.message);
       get().fetchQuizList();
       return true;

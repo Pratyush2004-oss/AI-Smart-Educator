@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Modal,
   Pressable,
   Text,
@@ -206,11 +207,18 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ children }) => {
                         </>
                       ) : (
                         <>
-                          <Ionicons
-                            name="checkmark-circle"
-                            size={20}
-                            color="#fff"
-                          />
+                          <View
+                            style={{ borderRadius: 20 }}
+                            className="flex-row items-center justify-center gap-0 px-2 py-1 rounded-full bg-blue-500/50"
+                          >
+                            <Image
+                              source={require("@/assets/images/token.png")}
+                              className="size-5"
+                            />
+                            <Text className="text-white font-outfit-semibold">
+                              10
+                            </Text>
+                          </View>
                           <Text className="ml-2 text-base text-white font-outfit-bold">
                             Create Course
                           </Text>
