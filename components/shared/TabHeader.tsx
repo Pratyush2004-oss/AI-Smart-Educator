@@ -1,7 +1,7 @@
 // ...existing code...
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Platform, Text, View } from "react-native";
+import { Image, Platform, Text, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 const TabHeader = () => {
@@ -20,7 +20,7 @@ const TabHeader = () => {
   return (
     <View style={{ ...shadowStyle, zIndex: 10 }}>
       <LinearGradient
-        colors={["#fff", "#194aa4"]}
+        colors={["#E6F4FE", "#194aa4"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
       >
@@ -29,7 +29,7 @@ const TabHeader = () => {
           className="px-5 border-b border-white/10"
         >
           <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center gap-2 space-x-3">
+            <View className="flex-row items-center justify-between w-full">
               <Text
                 className="text-[50px] font-times-bold"
                 style={{
@@ -40,6 +40,10 @@ const TabHeader = () => {
               >
                 Start <Text className="text-4xl">Today...</Text>
               </Text>
+              <Image
+                source={require("@/assets/images/logo.png")}
+                className="rounded-full size-16"
+              />
             </View>
           </View>
         </Animated.View>
