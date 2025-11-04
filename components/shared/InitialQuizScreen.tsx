@@ -104,9 +104,29 @@ const InitialQuizScreen = () => {
     >
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ paddingVertical: 60, paddingHorizontal: 20 }}
+        contentContainerStyle={{ paddingVertical: 30, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
       >
+        {/* NEW: Header / Message Section */}
+        <AView entering={FadeInDown.delay(80)} className="mb-6">
+          <View className="flex-row items-center">
+            <View
+              className="items-center justify-center w-12 h-12 mr-3 rounded-full"
+              style={{ backgroundColor: Colors.PRIMARY + "30" }}
+            >
+              <Ionicons
+                name="rocket-outline"
+                size={22}
+                color={Colors.PRIMARY}
+              />
+            </View>
+
+            <Text className="text-xl text-white font-outfit-extrabold">
+              Start your journey
+            </Text>
+          </View>
+        </AView>
+
         {/* Progress Bar */}
         <AView entering={FadeInDown.delay(100)} className="mb-8">
           <View className="flex-row items-center justify-between mb-2">

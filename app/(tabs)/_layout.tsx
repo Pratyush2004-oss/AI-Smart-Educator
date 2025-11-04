@@ -14,7 +14,7 @@ const TabLayout = () => {
   const { isLoading } = useCourseStore();
   return (
     <View className="relative flex-1">
-      <TabHeader />
+      {/* <TabHeader /> */}
       {isLoading && (
         <Loader
           centered={false}
