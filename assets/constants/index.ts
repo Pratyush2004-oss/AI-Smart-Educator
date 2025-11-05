@@ -17,6 +17,7 @@ export const UserApis = {
   loginUser: `${BASE_URL}/auth/login`,
   checkAuth: `${BASE_URL}/auth/check-auth`,
   attemptInitialQuiz: `${BASE_URL}/auth/attempt-initial-quiz`,
+  chooseDomains: `${BASE_URL}/auth/choose-domains`,
 };
 
 export const CourseApis = {

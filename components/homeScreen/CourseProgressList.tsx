@@ -2,6 +2,7 @@ import { Colors, imageAssets } from "@/assets/constants/index";
 import { useCourseStore } from "@/store/course.store";
 import { CourseType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
+import { Badge } from "@react-navigation/elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -63,6 +64,29 @@ const CourseProgressList = () => {
       shadowOpacity: 0.08,
       shadowRadius: 10,
       elevation: 3, // android elevation
+    };
+
+    const imageMap = [
+      require("@/assets/images/gold.png"),
+      require("@/assets/images/silver.png"),
+      require("@/assets/images/silver.png"),
+    ];
+
+    const BadgeImage = ({ progress }: { progress: number }) => {
+      // pick badge index based on progress thresholds (change thresholds as needed)
+      let idx = 2;
+      if (progress >= 75)
+        idx = 0; // gold
+      else if (progress >= 50) idx = 1; // silver
+      return (
+        <View className="p-1 rounded-full">
+          <Image
+            source={imageMap[idx]}
+            className=""
+            style={{ width: 25, height: 25 }}
+          />
+        </View>
+      );
     };
     return (
       <View
@@ -131,9 +155,13 @@ const CourseProgressList = () => {
 
             {/* Content */}
             <View className="p-4">
-              <Text className="text-lg font-outfit-bold" numberOfLines={1}>
-                {item.courseTitle}
-              </Text>
+              <View className="flex-row items-center gap-1">
+                <BadgeImage progress={progress} />
+
+                <Text className="text-lg font-outfit-bold" numberOfLines={1}>
+                  {item.courseTitle}
+                </Text>
+              </View>
 
               {/* Stats */}
               <View className="flex-row items-center mt-3 mb-2">

@@ -1,20 +1,21 @@
 import { Colors } from "@/assets/constants";
 import TabHeader from "@/components/shared/TabHeader";
 import { Feather } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCourseStore } from "@/store/course.store";
 import Loader from "@/components/shared/Loader";
 
 const TabLayout = () => {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { isLoading } = useCourseStore();
   return (
     <View className="relative flex-1">
-      {/* <TabHeader /> */}
+      <TabHeader />
       {isLoading && (
         <Loader
           centered={false}
@@ -26,6 +27,16 @@ const TabLayout = () => {
           }}
         />
       )}
+      {/* Icon with absolute positioning */}
+            <TouchableOpacity
+                style={styles.floatingIcon}
+                onPress={() => router.push("/chatbot")}
+            >
+                <Image
+                    source={require('@/assets/images/robot.jpg')} // Update the path to your image
+                    style={styles.iconImage}
+                />
+            </TouchableOpacity>
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -90,4 +101,18 @@ const TabLayout = () => {
   );
 };
 
+
+const styles = StyleSheet.create({
+    floatingIcon: {
+        position: 'absolute',
+        bottom: 90,
+        right: 20,
+        zIndex: 10,
+    },
+    iconImage: {
+        width: 60, // Set the width of the image
+        height: 60, // Set the height of the image
+        borderRadius: 30, // Optional: Make the image circular
+    },
+})
 export default TabLayout;

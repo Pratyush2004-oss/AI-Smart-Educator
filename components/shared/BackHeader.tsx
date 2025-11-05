@@ -168,7 +168,7 @@ const BackHeader: React.FC<BackHeaderProps> = ({
             className="p-2 mr-3 bg-white/10 rounded-xl"
           >
             <Animated.View style={iconAnimatedStyle}>
-              <Ionicons name="arrow-back" size={24} color={getIconColor()} />
+              <Ionicons name="chevron-back" size={24} color={getIconColor()} />
             </Animated.View>
           </Animated.View>
 

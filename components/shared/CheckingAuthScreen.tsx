@@ -114,7 +114,7 @@ const CheckingAuthScreen = () => {
         <MaskedView
           maskElement={
             <Text className="mb-2 text-3xl tracking-wide text-center font-outfit-bold">
-              Smart-Educator
+              EDUYUG
             </Text>
           }
         >
@@ -124,7 +124,7 @@ const CheckingAuthScreen = () => {
             end={[1, 0]}
           >
             <Text className="mb-2 text-3xl tracking-wide text-center opacity-0 font-outfit-bold">
-              Smart-Educator
+              EDUYUG
             </Text>
           </LinearGradient>
         </MaskedView>

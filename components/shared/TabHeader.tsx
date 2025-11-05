@@ -1,56 +1,61 @@
-// ...existing code...
-import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Image, Platform, Text, View } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-const TabHeader = () => {
-  const shadowStyle: any =
-    Platform.OS === "ios"
-      ? {
-          shadowColor: "#0b1220",
-          shadowOffset: { width: 0, height: 6 },
-          shadowOpacity: 0.12,
-          shadowRadius: 12,
-        }
-      : {
-          elevation: 6,
-          shadowColor: "#0b1220",
-        };
+export default function HomeScreen() {
   return (
-    <View style={{ ...shadowStyle, zIndex: 10 }}>
-      <LinearGradient
-        colors={["#E6F4FE", "#194aa4"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Animated.View
-          entering={FadeInUp.duration(500).springify()}
-          className="px-5 border-b border-white/10"
-        >
-          <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center justify-between w-full">
-              <Text
-                className="text-[50px] font-times-bold"
-                style={{
-                  letterSpacing: 2,
-                  lineHeight: 70,
-                  color: "#0f357b",
-                }}
-              >
-                Start <Text className="text-4xl">Today...</Text>
-              </Text>
-              <Image
-                source={require("@/assets/images/logo.png")}
-                className="rounded-full size-16"
-              />
-            </View>
-          </View>
-        </Animated.View>
-      </LinearGradient>
-    </View>
+    <LinearGradient colors={["#A5D6A7", "#E8F5E9"]} style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.greeting} className="font-times-bold">
+            Welcome to EDUYUG 👋
+          </Text>
+          <Text style={styles.subtext} className="font-outfit-semibold">
+            Ready to learn something new today?
+          </Text>
+        </View>
+        <Image
+          source={{
+            uri: "https://cdn-icons-png.flaticon.com/512/706/706830.png",
+          }}
+          style={styles.profile}
+        />
+      </View>
+    </LinearGradient>
   );
-};
+}
 
-export default TabHeader;
-// ...existing code...
+const styles = StyleSheet.create({
+  container: {},
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    marginTop: 10,
+  },
+  greeting: { fontSize: 22, color: "#2E7D32" },
+  subtext: { color: "#555", marginTop: 4 },
+  profile: { width: 50, borderRadius: 25 },
+  progressCard: {
+    backgroundColor: "#fff",
+    marginHorizontal: 20,
+    borderRadius: 16,
+    padding: 16,
+    elevation: 4,
+  },
+  progressText: {
+    fontWeight: "600",
+    fontSize: 16,
+    marginBottom: 10,
+    color: "#2E7D32",
+  },
+});
