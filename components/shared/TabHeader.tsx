@@ -1,13 +1,11 @@
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
-  View,
-  Text,
   StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
+  Text,
+  View
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import Streak from "./Streak";
 
 export default function HomeScreen() {
   return (
@@ -22,12 +20,7 @@ export default function HomeScreen() {
             Ready to learn something new today?
           </Text>
         </View>
-        <Image
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/706/706830.png",
-          }}
-          style={styles.profile}
-        />
+        <Streak />
       </View>
     </LinearGradient>
   );

@@ -1,5 +1,6 @@
 // auth type list
 export type UserType = {
+  _id: string;
   name: string;
   email: string;
   domains: string[];
@@ -12,6 +13,13 @@ export type InitialQuizType = {
   options: string[];
   correctAns: string;
   category: string;
+};
+
+export type LeaderboardType = {
+  name: string;
+  email: string;
+  _id: string;
+  tokens: number;
 };
 
 export type SignupInputType = {

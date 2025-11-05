@@ -17,7 +17,7 @@ export const UserApis = {
   loginUser: `${BASE_URL}/auth/login`,
   checkAuth: `${BASE_URL}/auth/check-auth`,
   attemptInitialQuiz: `${BASE_URL}/auth/attempt-initial-quiz`,
-  chooseDomains: `${BASE_URL}/auth/choose-domains`,
+  getLeaderBoard: `${BASE_URL}/auth/get-leaderboard`,
 };
 
 export const CourseApis = {
@@ -141,6 +141,13 @@ export const ProfileMenu = [
     path: "/(tabs)",
     type: "",
     desc: "Get my progress on all my courses",
+  },
+  {
+    name: "Leader Board",
+    icon: "bar-chart",
+    path: "/leaderboard",
+    type: "",
+    desc: "Check where you are in the leaderboard",
   },
   {
     name: "Explore",

@@ -1,5 +1,10 @@
 import { domains, UserApis } from "@/assets/constants/index";
-import { LoginInputType, SignupInputType, UserType } from "@/types";
+import {
+  LeaderboardType,
+  LoginInputType,
+  SignupInputType,
+  UserType,
+} from "@/types";
 import { showAlert } from "@/utils/AlertService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -11,12 +16,15 @@ interface UserStoreInterface {
   user: UserType | null;
   token: string | null;
   tokens: Number;
+  streak: Number;
+  leaderBoard: LeaderboardType[];
 
   signup: (userInput: SignupInputType) => Promise<void>;
   login: (userInput: LoginInputType) => Promise<void>;
   checkAuth: () => Promise<void>;
   logout: () => Promise<void>;
   attemptInitialQuiz: (quizMarks: number) => Promise<void>;
+  getLeaderBoard: () => Promise<void>;
   resetUserRecord: () => void;
 }
 export const useUserStore = create<UserStoreInterface>((set, get) => ({
@@ -25,6 +33,8 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
   user: null,
   token: null,
   tokens: 0,
+  streak: 0,
+  leaderBoard: [],
 
   //   signup controller
   signup: async (userInput) => {
@@ -53,6 +63,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         user: response.data.user,
         token: response.data.token,
         tokens: response.data.tokens,
+        streak: response.data.streak,
       });
       showAlert("Success", response.data.message);
       await AsyncStorage.setItem("token", response.data.token);
@@ -84,6 +95,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         user: response.data.user,
         token: response.data.token,
         tokens: response.data.tokens,
+        streak: response.data.streak,
       });
       showAlert("Success", response.data.message);
       await AsyncStorage.setItem("token", response.data.token);
@@ -108,6 +120,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
           token: null,
           user: null,
           tokens: 0,
+          streak: 0,
         });
       }
 
@@ -123,6 +136,7 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
         isAuthenticated: true,
         user: response.data.user,
         tokens: response.data.tokens,
+        streak: response.data.streak,
       });
     } catch (error) {
     } finally {
@@ -173,6 +187,20 @@ export const useUserStore = create<UserStoreInterface>((set, get) => ({
       } else {
         showAlert("Error", error.message);
       }
+    }
+  },
+  // get leaderboard
+  getLeaderBoard: async () => {
+    if (!get().token) return;
+    try {
+      const response = await axios.get(UserApis.getLeaderBoard, {
+        headers: {
+          Authorization: `Bearer ${get().token}`,
+        },
+      });
+      if (response.status === 400) throw new Error(response.data.message);
+      set({ leaderBoard: response.data.users });
+    } catch (error: any) {
     }
   },
   //   reset controller

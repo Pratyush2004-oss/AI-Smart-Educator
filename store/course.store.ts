@@ -210,6 +210,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       showAlert("Success", response.data.message);
       get().getCourseInfo(get().selectedCourse!);
       get().getCourseList();
+      useUserStore.setState({ streak: response.data.streak });
       return true;
     } catch (error: any) {
       if (error.isAxiosError) showAlert("Error", error.response.data.message);
@@ -358,6 +359,7 @@ export const useCourseStore = create<CourseStoreInterface>((set, get) => ({
       useUserStore.setState({ tokens: response.data.tokens });
       showAlert("Success", response.data.message);
       get().fetchQuizList();
+      useUserStore.setState({ streak: response.data.streak });
       return true;
     } catch (error: any) {
       if (error.isAxiosError) showAlert("Error", error.response.data.message);
