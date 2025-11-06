@@ -1,19 +1,18 @@
 // ...existing code...
+import { Colors } from "@/assets/constants";
+import { useUserStore } from "@/store/auth.store";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  View,
-  Text,
+  Dimensions,
   FlatList,
   Image,
-  Pressable,
   RefreshControl,
-  Dimensions,
+  Text,
+  View,
 } from "react-native";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
-import { Ionicons } from "@expo/vector-icons";
-import { useUserStore } from "@/store/auth.store";
-import { Colors } from "@/assets/constants";
-import { LinearGradient } from "expo-linear-gradient";
 
 export type LeaderboardType = {
   name: string;
@@ -28,9 +27,9 @@ const podiumWidth = Math.min(600, width - 32);
 const AView = Animated.View;
 
 const MedalIcon = ({ rank }: { rank: number }) => {
-  if (rank === 1) return <Ionicons name="trophy" size={18} color="#FFD54A" />;
-  if (rank === 2) return <Ionicons name="medal" size={16} color="#C0C0C0" />;
-  if (rank === 3) return <Ionicons name="medal" size={16} color="#B87333" />;
+  if (rank === 1) return <Ionicons name="trophy" size={20} color="#FFD54A" />;
+  if (rank === 2) return <Ionicons name="medal" size={18} color="#C0C0C0" />;
+  if (rank === 3) return <Ionicons name="medal" size={18} color="#B87333" />;
   return <Text className="text-sm text-gray-400">#{rank}</Text>;
 };
 
@@ -39,6 +38,7 @@ const PodiumTop = ({ top }: { top: (LeaderboardType | undefined)[] }) => {
   const second = top[1];
   const third = top[2];
 
+  const { user } = useUserStore();
   return (
     <View className="items-center px-4 mt-6">
       {/* semicircular background */}
@@ -77,7 +77,7 @@ const PodiumTop = ({ top }: { top: (LeaderboardType | undefined)[] }) => {
                       ? `https://i.pravatar.cc/150?u=${second._id}`
                       : undefined,
                   }}
-                  className="w-20 h-20 rounded-full"
+                  className={`w-20 h-20 rounded-full ${user?._id === second?._id ? "border-4 border-white" : ""}`}
                 />
               </View>
               <Text
@@ -94,9 +94,9 @@ const PodiumTop = ({ top }: { top: (LeaderboardType | undefined)[] }) => {
                   {second?.tokens ?? 0} pts
                 </Text>
               </View>
-              <View className="flex-row items-center mt-2 space-x-1">
+              <View className="flex-row items-center gap-1 mt-2">
                 <MedalIcon rank={2} />
-                <Text className="text-sm text-gray-400 ">2</Text>
+                <Text className="text-gray-400 font-outfit-semibold">2</Text>
               </View>
             </AView>
 
@@ -126,7 +126,7 @@ const PodiumTop = ({ top }: { top: (LeaderboardType | undefined)[] }) => {
                       ? `https://i.pravatar.cc/150?u=${first._id}`
                       : undefined,
                   }}
-                  className="w-24 h-24 rounded-full"
+                  className={`w-24 h-24 rounded-full ${user?._id === first?._id ? "border-4 border-white" : ""}`}
                 />
                 <View style={{ position: "absolute", top: -12 }}>
                   <View
@@ -177,7 +177,7 @@ const PodiumTop = ({ top }: { top: (LeaderboardType | undefined)[] }) => {
                       ? `https://i.pravatar.cc/150?u=${third._id}`
                       : undefined,
                   }}
-                  className="rounded-full w-18 h-18"
+                  className={`rounded-full w-18 h-18 ${user && user._id === third?._id ? "border-4 border-white" : ""}`}
                 />
               </View>
               <Text
@@ -235,6 +235,8 @@ const LeaderBoardScreen = () => {
   return (
     <LinearGradient
       colors={["#1a1a2e", "#16213e", "#0f3460"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
       className="flex-1"
     >
       {/* Top semicircular podium */}
@@ -246,7 +248,7 @@ const LeaderBoardScreen = () => {
         renderItem={({ item, index }) => {
           const rank = index + 4;
           return (
-            <AView entering={FadeInUp.delay(index * 20)} className="px-4">
+            <AView entering={FadeInUp.delay(index * 20)} className={`px-4 ${user?._id === item._id ? "border-4 border-white rounded-xl" : ""}`}>
               <View className="flex-row items-center justify-between p-3 mb-3 rounded-xl bg-white/6">
                 <View className="flex-row items-center">
                   <View className="items-center justify-center w-12 h-12 mr-3 rounded-full bg-white/5">

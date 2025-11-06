@@ -69,7 +69,7 @@ const CourseProgressList = () => {
     const imageMap = [
       require("@/assets/images/gold.png"),
       require("@/assets/images/silver.png"),
-      require("@/assets/images/silver.png"),
+      require("@/assets/images/bronze.png"),
     ];
 
     const BadgeImage = ({ progress }: { progress: number }) => {
@@ -158,7 +158,10 @@ const CourseProgressList = () => {
               <View className="flex-row items-center gap-1">
                 <BadgeImage progress={progress} />
 
-                <Text className="text-lg font-outfit-bold" numberOfLines={1}>
+                <Text
+                  className="w-5/6 text-lg font-outfit-bold"
+                  numberOfLines={1}
+                >
                   {item.courseTitle}
                 </Text>
               </View>

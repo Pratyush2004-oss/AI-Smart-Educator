@@ -1,4 +1,4 @@
-export const BASE_URL = "https://dm8gg2rt-5000.inc1.devtunnels.ms/api";
+export const BASE_URL = "https://edu-yug-backend.vercel.app/api";
 export const domains = [
   "Arts & Creativity",
   "Business & Finance",

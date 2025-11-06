@@ -28,15 +28,15 @@ const TabLayout = () => {
         />
       )}
       {/* Icon with absolute positioning */}
-            <TouchableOpacity
-                style={styles.floatingIcon}
-                onPress={() => router.push("/chatbot")}
-            >
-                <Image
-                    source={require('@/assets/images/robot.jpg')} // Update the path to your image
-                    style={styles.iconImage}
-                />
-            </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.floatingIcon}
+        onPress={() => router.push("/chatbot")}
+      >
+        <Image
+          source={require("@/assets/images/robot.jpg")} // Update the path to your image
+          style={styles.iconImage}
+        />
+      </TouchableOpacity>
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -101,18 +101,17 @@ const TabLayout = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
-    floatingIcon: {
-        position: 'absolute',
-        bottom: 90,
-        right: 20,
-        zIndex: 10,
-    },
-    iconImage: {
-        width: 60, // Set the width of the image
-        height: 60, // Set the height of the image
-        borderRadius: 30, // Optional: Make the image circular
-    },
-})
+  floatingIcon: {
+    position: "absolute",
+    bottom: 100,
+    right: 20,
+    zIndex: 10,
+  },
+  iconImage: {
+    width: 60, // Set the width of the image
+    height: 60, // Set the height of the image
+    borderRadius: 30, // Optional: Make the image circular
+  },
+});
 export default TabLayout;

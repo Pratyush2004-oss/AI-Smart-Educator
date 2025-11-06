@@ -47,6 +47,34 @@ const InitialQuizSummary = () => {
     });
   };
 
+  const RenderStat = () => {
+    if (scorePercent >= 75) {
+      return (
+       <View className="px-5 py-2 mb-4 bg-gray-100/10">
+          <Text className="text-lg text-center text-white font-outfit-extrabold">
+            ADVANCE
+          </Text>
+        </View>
+      );
+    } else if (scorePercent >= 50) {
+      return (
+       <View className="px-5 py-2 mb-4 bg-gray-100/10">
+          <Text className="text-lg text-center text-white font-outfit-extrabold">
+            INTERMEDIATE
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <View className="px-5 py-2 mb-4 bg-gray-100/10">
+          <Text className="text-lg text-center text-white font-outfit-extrabold">
+            BEGINNER
+          </Text>
+        </View>
+      );
+    }
+  };
+
   return (
     <LinearGradient
       colors={["#1a1a2e", "#16213e", "#0f3460"]}
@@ -73,6 +101,9 @@ const InitialQuizSummary = () => {
             You scored {scorePercent}%
           </Text>
         </AView>
+
+        {/* Render Stat */}
+        <RenderStat />
 
         {/* Stats */}
         <AView
