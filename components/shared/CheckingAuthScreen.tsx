@@ -1,6 +1,6 @@
 // ...existing code...
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
@@ -140,6 +140,10 @@ const CheckingAuthScreen = () => {
             className="w-3 h-3 -mt-1 rounded-full shadow-lg"
           />
         </AView>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          className="absolute mb-2 rounded-full size-[80px]"
+        />
 
         {/* Loading text and animated dots */}
         <View className="flex-row items-center">
