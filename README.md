@@ -28,75 +28,6 @@ One-liner:
 
 ---
 
-## 🌊 Application Workflow
-
-High-level user flow implemented by the backend: signup → initial quiz → level & tokens → recommended courses → create/enroll → AI generation → study → progress → badges. An AI chatbot runs in parallel.
-
-### Flowchart — User Journey
-
-```mermaid
-flowchart TD
-  Start([Start: User Signup])
-  Start --> Domains["User selects domains"]
-  Domains --> Quiz["Serve initial quiz (domain-based)"]
-  Quiz --> Evaluate{Evaluate quiz results}
-  Evaluate --> Level[Set user level<br/>(Beginner / Intermediate / Advanced)]
-  Evaluate --> Tokens[Award initial tokens]
-  Level --> Dashboard["Populate Recommended Courses (by domain+level)"]
-  Tokens --> Wallet["User token wallet"]
-  Dashboard --> Choice{"User action"}
-  Choice -->|Create Course (-10 tokens)| CreateCourse
-  Choice -->|Enroll in Course (-5 tokens)| EnrollCourse
-  CreateCourse --> Placeholder["Create placeholder course (status=processing)"]
-  Placeholder --> Queue["Enqueue AI generation job"]
-  Queue --> AI["AI: generate chapters, quizzes, flashcards, Q&A, video metadata"]
-  AI --> UpdateDB["Update course doc → status=ready"]
-  EnrollCourse --> Enrolled["Add user to course participants"]
-  UpdateDB --> Ready["Course ready — visible to users"]
-  Ready --> Study["User studies: read | watch video | listen audio"]
-  Study --> CompleteChapter{"Complete chapter?"}
-  CompleteChapter -->|Yes| MarkComplete["Mark chapter complete"]
-  MarkComplete --> Progress["Update progress tracker & streaks"]
-  Progress --> Badges{"Course completed?"}
-  Badges -->|Yes| AwardBadge["Award badge"]
-  Study --> Revision["Quick revision: Quiz | Flashcards | Q&A"]
-  Revision --> EarnTokens["Successful quiz → award tokens"]
-  EarnTokens --> Wallet
-  subgraph Chatbot [AI Chatbot]
-    ChatbotUser[AI Chatbot: available anytime]
-  end
-  ChatbotUser --> Study
-```
-
-### Flowchart — Course Creation & Background Job
-
-```mermaid
-flowchart TD
-  UI[Frontend POST /api/courses] --> API[Courses Controller]
-  API --> AuthCheck{Verify tokens}
-  AuthCheck -->|ok| Deduct[Deduct 10 tokens]
-  Deduct --> CreatePlaceholder[(Insert course doc: status=processing)]
-  API --> Enqueue[Enqueue: generateCourse job → JobQueue]
-  subgraph Worker[Worker Environment]
-    JobQueue[(Redis/Bull Queue)]
-    WorkerProc[Worker Process]
-    LLM[AI Service (LLM / prompt pipeline)]
-    YoutubeSvc[YouTube metadata service]
-    Validator[Sanitizer & Validator]
-  end
-  Enqueue --> JobQueue
-  JobQueue --> WorkerProc
-  WorkerProc --> LLM
-  WorkerProc --> YoutubeSvc
-  LLM --> Validator
-  YoutubeSvc --> Validator
-  Validator --> Update[(Update course doc with content)]
-  Update --> CreatePlaceholder
-  CreatePlaceholder -->|status=ready| API
-  API --> UI
-```
-
----
 
 ## 🚀 Setup and Run Instructions
 
@@ -132,7 +63,6 @@ Key variables (add to `.env`):
 - PORT = 4000 (or your port)
 - OPENAI_API_KEY (or other LLM key) = AI provider key
 - YOUTUBE_API_KEY = (for Youtube metadata)
-- REDIS_URL = (if using Bull/BullMQ)
 - NODE_ENV = development
 
 > Note: some config files are under `src/config/` (AI-Config.js, YoutubeConfig.js).
@@ -283,3 +213,161 @@ If you want, I can:
 - B) Export the Mermaid diagrams to SVG and place them into `backend/docs/` for guaranteed rendering.
 - C) Scaffold a BullMQ worker and sample `generateCourse` job (producer + consumer) and add it to `src/workers/`.
 
+
+---
+
+## Application workflow (summary)
+
+High-level user flow implemented by the backend:
+signup → initial quiz → level & tokens → recommended courses → create/enroll → AI generation (Gemini) → study → progress → badges. An AI chatbot runs in parallel.
+
+Important clarifications (these resolve the issues you reported)
+- Course generation uses Google Gemini API (GEMINI_API_KEY). The project did NOT use generic "LLM models" wording — README is updated to reflect Gemini specifically.
+- The current project does NOT use Redis/Bull by default. AI generation runs as a background job/worker in-process (suitable for development / hackathon). For production we recommend moving to a persistent queue (Bull/BullMQ + Redis).
+- The Mermaid flowcharts in the previous README are often not rendered on GitHub unless repository settings or extensions are enabled. This README replaces inline Mermaid with plain-text flows and provides export instructions so diagrams render consistently.
+
+User journey (text flow)
+1. User signup → select domains  
+2. Serve initial quiz (domain-based) → evaluate → assign level & award initial tokens  
+3. Dashboard: recommend courses by domain+level  
+4. Create course (costs tokens) → placeholder course (status=processing) → background generate content (Gemini) → update course to ready  
+5. Enroll (costs tokens) → study → complete chapters → update progress & award badges/tokens
+
+Course creation background job (text flow)
+1. Frontend POST /api/courses  
+2. API verifies tokens, deducts cost, inserts placeholder course (status=processing)  
+3. Background worker (in-process) calls Gemini API and optional YouTube metadata service → generate chapters, quizzes, flashcards, Q&A, video metadata  
+4. Worker validates & updates course document → status=ready
+
+---
+
+## 📱 Mobile app (Client) — reference & data contract
+
+This repo includes a React Native / Expo mobile client under the `app/` folder. Below are quick run instructions, how the client connects to the backend, and the minimal request/response shapes the mobile app expects.
+
+Run (from repository root, Windows PowerShell / cmd):
+```cmd
+cd "d:\All Programs and Projects\Smart Education\Smart-Educator"
+npm install
+npx expo start
+# then press 'a' for Android emulator, 'i' for iOS simulator, or open in Expo Go
+```
+
+Environment/config for mobile
+- The app uses a base API URL constant. Set the backend URL in `assets/constants` or an env file used by the client (example name: REACT_NATIVE_API_URL / API_URL).
+- Example constant (place in `assets/constants/index.ts` if missing):
+
+```ts
+// filepath: app/assets/constants/index.ts
+export const API_BASE = process.env.API_URL ?? "http://localhost:4000/api";
+export const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY ?? "";
+```
+
+Important client-to-backend endpoints (minimal contract)
+
+1) Signup (domain selection)
+- Endpoint: POST /api/auth/signup
+- Request:
+```json
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "password": "supersecret",
+  "domains": ["math","programming"]
+}
+```
+- Response (success):
+```json
+{
+  "user": { "_id":"...", "name":"Jane Doe", "domains":["math"], "tokens": 10, "level": "Beginner" },
+  "token": "<jwt>"
+}
+```
+
+2) Submit initial quiz
+- Endpoint: POST /api/auth/submit-initial-quiz
+- Request:
+```json
+{
+  "userId": "...",
+  "quizAnswers": [{ "questionId":"q1","answer":"b" }, ...]
+}
+```
+- Response:
+```json
+{
+  "level": "Intermediate",
+  "tokensAwarded": 5,
+  "totalTokens": 15
+}
+```
+
+3) Create course (client posts a create request; backend returns a placeholder)
+- Endpoint: POST /api/courses
+- Auth: Bearer JWT
+- Request body (example):
+```json
+{
+  "title": "Intro to Algebra",
+  "domain": "math",
+  "level": "Beginner",
+  "notes": "Focus on fundamentals",
+  "language": "en"
+}
+```
+- Response (placeholder course)
+```json
+{
+  "_id": "course_123",
+  "title": "Intro to Algebra",
+  "domain": "math",
+  "level": "Beginner",
+  "status": "processing",
+  "creator": "user_456",
+  "cost": 10,
+  "createdAt": "2025-11-06T..."
+}
+```
+- Background update: when generation completes the server updates the course doc: status -> "ready" and writes chapters, quizzes, flashcards, and optional video metadata.
+
+4) Polling course by id (client expects stable fields)
+- Endpoint: GET /api/courses/:id
+- Response (when ready):
+```json
+{
+  "_id":"course_123",
+  "title":"Intro to Algebra",
+  "status":"ready",
+  "chapters":[
+    { "id":"c1","title":"Numbers","content":"...", "video": { "id":"yt_xxx","title":"..." } }
+  ],
+  "quizzes":[...],
+  "flashcards":[...]
+}
+```
+
+5) Enroll in course
+- Endpoint: POST /api/courses/:id/enroll
+- Auth required. Cost enforced server-side (default: 5 tokens).
+
+Client-side expectations / notes
+- Token balances must be displayed and updated after operations (create/enroll/quiz reward).
+- Course creation may be asynchronous — UI should show placeholder state, poll GET /api/courses/:id or use push/WS if added later.
+- Sanitize/escape any returned HTML/text from Gemini output before rendering.
+- Large media are referenced via metadata (YouTube id/url) — client embeds via WebView or native YouTube player.
+
+Server-side clarifications relevant to the client
+- Course generation uses Google Gemini API (GEMINI_API_KEY) and currently runs in-process (no Redis by default). Expect variable latency on creation.
+- If you add a Redis/Bull queue later, the API contract remains the same; only generation becomes externalized.
+
+Where to update the client if backend URL changes
+- Replace API_BASE in `app/assets/constants/index.ts` or set REACT_NATIVE_API_URL in your environment used by Expo.
+
+---
+
+If you want, I can:
+- A) Add the sample constants file into `app/assets/constants/index.ts` and commit it.
+- B) Add minimal example screens that show placeholder -> ready flow and polling logic.
+- C) Generate Postman / HTTP collection with the request/response examples above.
+
+Reply with A, B, or C to proceed.
