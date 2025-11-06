@@ -184,4 +184,11 @@ export const ProfileMenu = [
     type: "Question & Ans",
     desc: "Get quizes on all my courses",
   },
+  {
+    name: "Feedbacks",
+    icon: "chatbubble-outline", //Ionic Icons
+    path: "/feedback",
+    type: "",
+    desc: "Provide your genuine feedback and queries",
+  },
 ];
