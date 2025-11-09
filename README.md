@@ -253,6 +253,7 @@ npx expo start
 # then press 'a' for Android emulator, 'i' for iOS simulator, or open in Expo Go
 ```
 
+
 Environment/config for mobile
 - The app uses a base API URL constant. Set the backend URL in `assets/constants` or an env file used by the client (example name: REACT_NATIVE_API_URL / API_URL).
 - Example constant (place in `assets/constants/index.ts` if missing):
